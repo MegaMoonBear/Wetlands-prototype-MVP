@@ -4,19 +4,19 @@ Clone the repository. Do not fork.
   
 Cloning is the right move, since I: 
    
-  Started the repo yourself in GitHub
+   - Started the repo yourself in GitHub
   
-  Will be coding locally in VS Code
+   - Will be coding locally in VS Code
   
-  Intend to push changes back to that same repo
+   - Intend to push changes back to that same repo
   
 Cloning:
   
-  Creates a local working copy on your machine
+   - Creates a local working copy on your machine
   
-  Keeps the repo connected to GitHub (origin)
+   - Keeps the repo connected to GitHub (origin)
   
-  Is the standard workflow for solo or primary-owner projects
+   - Is the standard workflow for solo or primary-owner projects
 
 # Minimum VS Code Setup (Day 3)
 
