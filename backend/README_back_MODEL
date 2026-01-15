@@ -1,0 +1,62 @@
+# **Model Selection** section - 2-layer framing
+
+## Model Selection & Evaluation (Two-Layer Approach)
+
+Model selection in this project is intentionally separated into **two distinct layers**, reflecting the different roles AI plays in user interaction versus downstream analysis. This separation ensures responsible use of AI, minimizes technical risk, and aligns with Phase 1 design constraints.
+
+---
+
+### Layer 1: Assistive AI for Image-Based Suggestions (User-Facing)
+
+The first layer uses **pre-trained, off-the-shelf image recognition tools** to assist users who may not have prior plant or animal identification experience. Users submit a single image of a pond or waterway, and the system returns a short list of **possible plant or animal suggestions with confidence indicators**. These outputs are explicitly framed as *suggestions*, not authoritative identifications.
+
+No custom model training is performed in Phase 1, and no automated species identification is finalized without human review. This layer exists solely to **reduce user friction**, encourage participation, and help structure downstream data collection.
+
+Model selection at this layer prioritizes:
+
+* Use of existing, well-tested pre-trained tools
+* Low operational complexity
+* Transparent confidence scoring and disclaimers
+
+Formal model evaluation at this layer focuses on **usability and consistency**, rather than scientific accuracy, as outputs are not treated as ground truth.
+
+---
+
+### Layer 2: Analytical Models for Structured Data (Back-End)
+
+The second layer applies **traditional analytical and statistical models** to structured, validated data derived from observations and human-reviewed indicators. These models never operate on raw images; instead, they use tabular data such as time, location, water presence, vegetation indicators, and validation status.
+
+Candidate models include:
+
+* **Linear regression and time-series models (e.g., ARIMA)** for detecting seasonal patterns and long-term trends
+* **Tree-based models (e.g., Random Forest)** for analyzing relationships among environmental indicators
+* **Logistic regression** for probabilistic classification of binary conditions (e.g., water present vs absent)
+
+Model selection at this layer is based on **interpretability, performance on small to moderate datasets, and computational simplicity**, consistent with Phase 1 constraints.
+
+Model evaluation uses standard metrics such as RMSE, accuracy, and cross-validation performance, with an emphasis on **explainability and reproducibility** rather than maximum predictive complexity.
+
+---
+
+### Alignment with Phase 1 Design Principles
+
+This two-layer approach:
+
+* Maintains **lowest possible friction** for users and developers
+* Avoids custom model training and advanced image processing
+* Minimizes service dependencies and system fragility
+* Preserves a clear human-in-the-loop workflow
+* Creates a clean foundation for future Phase 2 enhancements
+
+By separating assistive AI from analytical modeling, the project supports novice participation while ensuring that downstream analyses remain rigorous, auditable, and fit for scientific or planning use.
+
+---
+
+If you want, next I can:
+
+* Add a **one-paragraph “Why not deep learning?” justification**
+* Tighten this further for a **federal or foundation grant**
+* Map each layer directly to **tables in your data schema**
+* Create a **diagram showing the two layers + data flow**
+
+This section is now solid, defensible, and clearly senior-level.

@@ -47,3 +47,43 @@ Cloning:
   Print image metadata
   
   Make a simple API call
+
+## DEPENDENCIES - What each dependency is doing (and why it belongs)
+fastapi
+  Why:
+    Defines a simple backend API
+    Cleanly structures endpoints
+    Lightweight and modern
+  Reviewer signal: You know how to scaffold backend logic without overengineering.
+
+uvicorn
+  Why:
+    Runs FastAPI locally
+    Zero configuration
+    Industry standard ASGI server
+  Reviewer signal: You understand how backends actually run.
+
+python-multipart
+  Why:
+    Required for handling image uploads in FastAPI
+    Even if you simulate uploads from local files, FastAPI expects this
+  Reviewer signal: You didn’t “hack around” file handling.
+
+pillow
+  Why:
+    Opens and validates image files
+    Converts formats if needed
+    Reads basic metadata
+  Reviewer signal: You treat images as data, not blobs.
+
+requests
+  Why:
+    Sends HTTP requests to the LLaMA Vision API
+    Simple and widely trusted
+  Reviewer signal: Clear, minimal API integration.
+
+python-dotenv
+  Why:
+    Loads API keys from .env
+    Keeps secrets out of code and GitHub
+  Reviewer signal: You understand security basics
