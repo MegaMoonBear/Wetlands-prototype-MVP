@@ -1,39 +1,75 @@
 # models.py
-# This file defines the database models if using an ORM like SQLAlchemy.
-# Example: Create classes that map to database tables and define relationships.
-# Use SQLAlchemy's Base class to define models.
-# Ensure models are consistent with the database schema.
+# This file defines the database models using raw SQL queries and psycopg2.
+# Example: Create functions to interact with the database tables directly.
+# Ensure functions are consistent with the database schema.
 
-# Example SQLAlchemy model:
-# from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy import Column, Integer, String
-# Base = declarative_base()
-# class User(Base):
-#     __tablename__ = 'users'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String)
+# Import psycopg2 for database interaction
+import psycopg2  # psycopg2 is a library for interacting with PostgreSQL databases
+from psycopg2 import sql  # sql module helps safely construct dynamic SQL queries
 
-# What to Include in models.py:
-# Table Definitions:
-# Define classes for each table.
-# Specify attributes (columns) with their data types and constraints.
-# Schema Information:
-# Use SQLAlchemy's Base class to define the schema.
-# Include relationships if needed.
+# Database connection setup
+# Replace with your actual database credentials
+def get_db_connection():
+    return psycopg2.connect(
+        dbname="your_database_name",  # Name of the PostgreSQL database
+        user="your_username",  # Username for database authentication
+        password="your_password",  # Password for database authentication
+        host="localhost",  # Host where the database server is running
+        port="5432"  # Default port for PostgreSQL
+    )
 
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
+# Example function to create a table
+def create_tables():
+    connection = get_db_connection()  # Establish a database connection
+    cursor = connection.cursor()  # Create a cursor to execute SQL commands
+    try:
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,  # Auto-incrementing primary key
+                email VARCHAR(255) UNIQUE NOT NULL  # Unique email field
+            );
 
-Base = declarative_base()
+            CREATE TABLE IF NOT EXISTS images (
+                id SERIAL PRIMARY KEY,  # Auto-incrementing primary key
+                user_id INTEGER REFERENCES users(id),  # Foreign key to users table
+                file_path VARCHAR(255) NOT NULL  # Path to the image file
+            );
+            """
+        )
+        connection.commit()  # Commit the transaction to save changes
+    finally:
+        cursor.close()  # Close the cursor to free resources
+        connection.close()  # Close the connection to the database
 
-class User(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True, index=True)
-    # name = Column(String, nullable=False)
-    email = Column(String, unique=True, nullable=False)
+# Example function to insert a user
+def insert_user(email):
+    connection = get_db_connection()  # Establish a database connection
+    cursor = connection.cursor()  # Create a cursor to execute SQL commands
+    try:
+        cursor.execute(
+            "INSERT INTO users (email) VALUES (%s) RETURNING id;",  # Insert a new user
+            (email,)
+        )
+        user_id = cursor.fetchone()[0]  # Fetch the generated user ID
+        connection.commit()  # Commit the transaction to save changes
+        return user_id
+    finally:
+        cursor.close()  # Close the cursor to free resources
+        connection.close()  # Close the connection to the database
 
-class Image(Base):
-    __tablename__ = 'images'
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    file_path = Column(String, nullable=False)
+# Example function to insert an image
+def insert_image(user_id, file_path):
+    connection = get_db_connection()  # Establish a database connection
+    cursor = connection.cursor()  # Create a cursor to execute SQL commands
+    try:
+        cursor.execute(
+            "INSERT INTO images (user_id, file_path) VALUES (%s, %s) RETURNING id;",  # Insert a new image
+            (user_id, file_path)
+        )
+        image_id = cursor.fetchone()[0]  # Fetch the generated image ID
+        connection.commit()  # Commit the transaction to save changes
+        return image_id
+    finally:
+        cursor.close()  # Close the cursor to free resources
+        connection.close()  # Close the connection to the database

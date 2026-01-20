@@ -31,3 +31,6 @@ if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 # test the local connection by running the FastAPI app and verifying the endpoints
+
+# routes.py: If the backend uses a routing system, this file might need updates to define endpoints for handling image and text inputs.
+# This could include routes for uploading images, sending text prompts, and receiving responses from the Llama 3.2-Vision model.

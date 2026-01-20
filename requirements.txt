@@ -1,10 +1,14 @@
 # Requirements for Wetlands-prototype-MVP
 # This file lists all the Python packages required to run the Wetlands-prototype-MVP application.
-fastapi
-uvicorn
-python-multipart
-pillow
-requests
-python-dotenv
+
+fastapi  # FastAPI is a modern web framework for building APIs with Python
+uvicorn  # Uvicorn is an ASGI server for running FastAPI applications
+python-multipart  # Enables handling of multipart/form-data, useful for file uploads
+pillow  # Pillow is a library for image processing in Python
+requests  # Requests is a library for making HTTP requests in Python
+python-dotenv  # Python-dotenv loads environment variables from a .env file
+
 # Phase 1 MVP = one narrow pipeline: Local image → Backend → AI API → Structured suggestions → Output
 # So we don't need heavy ML libraries or databases at this stage
+
+# requirements.txt: If new libraries like Hugging Face's transformers or ollama are required, they should be added to this file.

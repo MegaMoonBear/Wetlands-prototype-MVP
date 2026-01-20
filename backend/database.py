@@ -1,25 +1,42 @@
 # database.py
-# This file manages the database connection and queries.
-# Use a library like SQLAlchemy or psycopg2 to interact with the SQL database.
-# Example: Define functions to connect to the database and execute queries - Add a function to connect to the database and perform basic queries.
+# This file manages the database connection and queries using psycopg2.
+# Example: Define functions to connect to the database and execute queries.
 # Ensure secure handling of database credentials (e.g., use environment variables).
 
-# Example SQLAlchemy setup:
-# from sqlalchemy import create_engine
-# DATABASE_URL = "sqlite:///example.db"
-# engine = create_engine(DATABASE_URL)
+# Import psycopg2 for database interaction
+import psycopg2  # psycopg2 is a library for interacting with PostgreSQL databases
+from psycopg2 import sql  # sql module helps safely construct dynamic SQL queries
 
-# Function to connect to the database
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+# Database connection setup
+# Replace with your actual database credentials
+def get_db_connection():
+    return psycopg2.connect(
+        dbname="your_database_name",  # Name of the PostgreSQL database
+        user="your_username",  # Username for database authentication
+        password="your_password",  # Password for database authentication
+        host="localhost",  # Host where the database server is running
+        port="5432"  # Default port for PostgreSQL
+    )
 
-DATABASE_URL = "sqlite:///example.db"  # Replace with your database URL
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-def get_db():
-    db = SessionLocal()
+# Example function to execute a query
+def execute_query(query, params=None):
+    connection = get_db_connection()  # Establish a database connection
+    cursor = connection.cursor()  # Create a cursor to execute SQL commands
     try:
-        yield db
+        cursor.execute(query, params)  # Execute the provided SQL query with parameters
+        connection.commit()  # Commit the transaction to save changes
     finally:
-        db.close()
+        cursor.close()  # Close the cursor to free resources
+        connection.close()  # Close the connection to the database
+
+# Example function to fetch data
+def fetch_data(query, params=None):
+    connection = get_db_connection()  # Establish a database connection
+    cursor = connection.cursor()  # Create a cursor to execute SQL commands
+    try:
+        cursor.execute(query, params)  # Execute the provided SQL query with parameters
+        results = cursor.fetchall()  # Fetch all rows from the query result
+        return results
+    finally:
+        cursor.close()  # Close the cursor to free resources
+        connection.close()  # Close the connection to the database

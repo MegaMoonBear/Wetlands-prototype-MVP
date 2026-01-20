@@ -12,3 +12,6 @@
 #     return "Hello, World!"
 # if __name__ == '__main__':
 #     app.run(debug=True)
+
+# app.py: If app.py is the entry point for the backend, it might need updates to include routes or endpoints that utilize the Llama 3.2-Vision functionality.
+
