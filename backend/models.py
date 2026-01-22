@@ -1,7 +1,9 @@
 # models.py
 # This file defines the database models using raw SQL queries and psycopg2.
-# Example: Create functions to interact with the database tables directly.
-# Ensure functions are consistent with the database schema.
+# Tasks:
+# - Define database schema for storing AI responses and image metadata.
+# - Provide functions to create tables and interact with the database.
+# - Used by sandbox/database_saver.py to save data.
 
 # Import psycopg2 for database interaction
 import psycopg2  # psycopg2 is a library for interacting with PostgreSQL databases

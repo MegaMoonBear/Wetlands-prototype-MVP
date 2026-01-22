@@ -1,0 +1,22 @@
+# Environment variables file - contains sensitive database credentials 
+# Protects PostGreSQL connection string specifics for PGAdmin4; psql tools
+.env
+[database_url.env](http://_vscodecontentref_/4)
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+

@@ -1,5 +1,9 @@
 # routes.py
-# This file defines API endpoints for the backend service - define API routes, including one for image uploads
+# This file defines API endpoints for the backend service.
+# Tasks:
+# - Currently unused as the prototype does not include a frontend or API routes.
+# - Future use: Define routes for interacting with sandbox modules.
+
 # Example: Define routes for image uploads, data retrieval, and other functionalities. 
 # Use a framework like Flask or FastAPI to create and manage routes.
 

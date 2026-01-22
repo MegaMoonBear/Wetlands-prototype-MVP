@@ -7,6 +7,7 @@ python-multipart  # Enables handling of multipart/form-data, useful for file upl
 pillow  # Pillow is a library for image processing in Python
 requests  # Requests is a library for making HTTP requests in Python
 python-dotenv  # Python-dotenv loads environment variables from a .env file
+huggingface_hub==1.2.3  # Hugging Face Hub is used to access models and datasets from Hugging Face
 
 # Phase 1 MVP = one narrow pipeline: Local image → Backend → AI API → Structured suggestions → Output
 # So we don't need heavy ML libraries or databases at this stage

@@ -1,0 +1,19 @@
+## Model Selection & Evaluation (Two-Layer Approach)
+Model selection in this project is intentionally separated into **two distinct layers**, reflecting the different roles AI plays in user interaction versus downstream analysis. This separation ensures responsible use of AI, minimizes technical risk, and aligns with Phase 1 design constraints.
+
+### Layer 1: Assistive AI for Image-Based Suggestions (User-Facing)
+The first layer... in frontend folder
+
+### Layer 2: Analytical Models for Structured Data (Back-End)
+The second layer applies **traditional analytical and statistical models** to structured, validated data. These models never operate on raw images; instead, they use tabular data such as time, location, water presence, water flow (or still), ID tags (vegetation indicators, animal indicators), confidence level, and validation status. 
+
+Not 90B
+Primary Llama Vision Models:
+1. meta-llama/Llama-3.2-11B-Vision-Instruct
+
+Official Meta model - This is the primary Llama Vision model
+Size: 11B parameters
+Downloads: 100.8K | Likes: 1,553
+Task: image-text-to-text
+Link: https://hf.co/meta-llama/Llama-3.2-11B-Vision-Instruct
+

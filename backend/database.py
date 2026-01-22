@@ -1,11 +1,17 @@
 # database.py
 # This file manages the database connection and queries using psycopg2.
-# Example: Define functions to connect to the database and execute queries.
-# Ensure secure handling of database credentials (e.g., use environment variables).
+# Tasks:
+# - Provide reusable functions for connecting to the database.
+# - Used by sandbox/database_saver.py to save AI responses and metadata.
 
 # Import psycopg2 for database interaction
 import psycopg2  # psycopg2 is a library for interacting with PostgreSQL databases
 from psycopg2 import sql  # sql module helps safely construct dynamic SQL queries
+import os  # os module provides a way of using operating system-dependent functionality
+from dotenv import load_dotenv  # load_dotenv function loads environment variables from a .env file
+
+# Load environment variables from .env file in the services folder
+load_dotenv(dotenv_path=os.path.join("services", ".env"))
 
 # Database connection setup
 # Replace with your actual database credentials
