@@ -1,3 +1,10 @@
+import sys
+import os
+
+library_path = os.path.abspath('backend/sandbox/backend')
+if library_path not in sys.path:
+    sys.path.insert(0, library_path)
+
 import unittest
 from llama_service import load_pipeline, process_image_with_llama
 
@@ -15,7 +22,7 @@ class TestLlamaService(unittest.TestCase):
 
         # Call the function
         result = process_image_with_llama(self.pipeline, image_path, text_prompt)
-
+        print(result)
         # Assert the result is not empty
         self.assertIsNotNone(result)
         self.assertIsInstance(result, str)

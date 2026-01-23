@@ -41,7 +41,7 @@ def load_pipeline():
     """
     try:
         # Load the pipeline using the local model path
-        return pipeline("image-text-to-text", model="./path/to/local/model")
+        return pipeline("image-text-to-text", model="meta-llama/Llama-3.2-11B-Vision")
     except Exception as e:
         raise RuntimeError(f"Failed to load the pipeline: {e}")
     
