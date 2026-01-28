@@ -1,5 +1,6 @@
 import ollama
 
+#  post request and image as route to ollama LLaMA Vision model
 response = ollama.chat(
     model='llama3.2-vision',
     messages=[{

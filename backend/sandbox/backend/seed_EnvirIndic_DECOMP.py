@@ -51,7 +51,7 @@ def seed_database():
             if os.path.isfile(image_path):
                 # Insert sample data into the database
                 cursor.execute("""
-                    INSERT INTO submissions (submitted_at, user_id, media_type, storage_url, tags_user_device)
+                    INSERT INTO observations (submitted_at, user_id, media_type, storage_url, tags_user_device)
                     VALUES (%s, %s, %s, %s, %s)
                 """, (
                     datetime.now(),  # submitted_at
@@ -75,7 +75,7 @@ def seed_database():
         # Example of how to use the second set in the database seeding
         if os.path.isfile(SECOND_IMAGE_PATH):
             cursor.execute("""
-                INSERT INTO submissions (submitted_at, user_id, media_type, storage_url, tags_user_device)
+                INSERT INTO observations (submitted_at, user_id, media_type, storage_url, tags_user_device)
                 VALUES (%s, %s, %s, %s, %s)
             """, (
                 datetime.now(),  # submitted_at

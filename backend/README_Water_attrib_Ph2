@@ -1,0 +1,215 @@
+
+
+
+Include **visually observable water characteristics** that the AI can classify from images.
+**Yes** — this needs **at least one lookup table**, but you can keep it light for Phase 1.
+
+## Phase 1 framing (important) - Your Phase 1 goal is **signal/suggest, not certainty** 
+
+Using **one indicator species** (plant *or* animal) + **basic visual water traits** is:
+* scientifically defensible
+* AI-friendly
+* easy for users
+* expandable later
+**NOT inferring chemistry - Visual ecology**
+
+## What the table needs to support in Phase 1
+1. One indicator species (presence / absence / confidence)
+2. Waterbody context (what kind of water is this?)
+3. Visually observable water traits
+4. AI confidence + source transparency
+5. Room to expand later (without schema pain)
+
+---
+
+## Recommended Phase 1 Core Table
+
+### `water_observation`
+
+```sql
+water_observation (
+  id UUID PRIMARY KEY,
+
+  -- Spatial + context
+  location_id UUID,
+  waterbody_type_id INT,        -- lookup
+  spatial_context_id INT,       -- lookup (urban, rural, etc.)
+
+  -- Indicator species (Phase 1: single species)
+  indicator_species_id INT,     -- lookup
+  species_presence ENUM(
+    'present',
+    'absent',
+    'uncertain'
+  ),
+
+  -- AI-derived visual water traits
+  flow_type ENUM(
+    'still',
+    'slow_moving',
+    'fast_moving',
+    'unknown'
+  ),
+
+  water_color ENUM(
+    'clear',
+    'brown',
+    'green',
+    'blue',
+    'black',
+    'other',
+    'unknown'
+  ),
+
+  turbidity_level ENUM(
+    'low',
+    'moderate',
+    'high',
+    'unknown'
+  ),
+
+  surface_conditions SET(
+    'foam',
+    'oil_sheen',
+    'algal_mat',
+    'debris',
+    'none_observed'
+  ),
+
+  -- AI metadata
+  ai_confidence_score DECIMAL(3,2),
+  classification_source ENUM(
+    'ai_image',
+    'user_reported',
+    'field_verified'
+  ),
+
+  observed_at TIMESTAMP
+);
+```
+
+This is **lean enough for Phase 1**, but scientifically meaningful.
+
+---
+
+## Should water characteristics be visually identified by AI?
+
+**Absolutely yes — and this is a strength of your app.**
+
+These traits are:
+
+* observable from photos
+* widely used in rapid assessments
+* understandable by the public
+* correlated with water quality trends
+
+You are not claiming chemistry — you’re claiming **ecological signal**.
+
+This is exactly how early-stage biomonitoring works.
+
+---
+
+## Lookup Tables You Should Have (Minimum)
+
+### 1️⃣ `indicator_species` **(Required)**
+
+```sql
+indicator_species (
+  id INT PRIMARY KEY,
+  scientific_name TEXT,
+  common_name TEXT,
+  species_group ENUM('plant','invertebrate','fish','amphibian'),
+  water_quality_signal ENUM('good','moderate','poor'),
+  notes TEXT
+);
+```
+
+Why:
+
+* You *will* change species later
+* Different regions = different indicator organisms
+* Keeps science transparent
+
+---
+
+### 2️⃣ `waterbody_type` **(Strongly recommended)**
+
+```sql
+waterbody_type (
+  id INT PRIMARY KEY,
+  code TEXT,
+  label TEXT
+);
+```
+
+Examples:
+
+* stream
+* river
+* pond
+* lake
+* wetland
+* drainage_ditch
+
+Flow + species interpretation depends on this.
+
+---
+
+### 3️⃣ `spatial_context` (Optional in Phase 1, useful by Phase 2)
+
+Urban vs rural changes expectations dramatically.
+
+---
+
+## What I would NOT add yet (important restraint)
+
+❌ Chemical parameters
+❌ Numeric turbidity
+❌ pH / DO inference
+❌ Multiple species per observation
+
+Those come later *after* trust is built.
+
+---
+
+## Phase 1 → Phase 2 Growth Path (this matters)
+
+Phase 1:
+
+* 1 species
+* visual traits
+* pattern recognition
+
+Phase 2:
+
+* species groups
+* seasonal patterns
+* repeated observations
+* simple trend indicators
+
+Phase 3:
+
+* sensors
+* chemistry
+* partner datasets
+
+Your schema already supports this trajectory.
+
+---
+
+## Coach’s bottom line
+
+You’re asking the **right question at the right time**.
+
+This table:
+
+* fits Phase 1 perfectly
+* plays to AI’s strengths
+* avoids scientific overclaim
+* sets you up for credibility
+
+If you want next, I can:
+
+* help pick the **best first indicator species**
+* design the **AI prompt + JSON output**
+* or write the **Phase 1 methodology blurb** funders love

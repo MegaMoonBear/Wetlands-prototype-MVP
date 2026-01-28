@@ -111,10 +111,10 @@ async def fetch_all(query: str, *args):
 
 # ==================== Example Usage ====================
 # Example 1: Insert data
-# await execute_query("INSERT INTO submissions (user_ID, media_type) VALUES ($1, $2)", "user123", "image")
+# await execute_query("INSERT INTO observations (user_ID, media_type) VALUES ($1, $2)", "user123", "image")
 
 # Example 2: Fetch one record
-# submission = await fetch_one("SELECT * FROM submissions WHERE id = $1", "some-uuid")
+# observation = await fetch_one("SELECT * FROM observations WHERE id = $1", "some-uuid")
 
 # Example 3: Fetch all records
-# all_submissions = await fetch_all("SELECT * FROM submissions")
+# all_observations = await fetch_all("SELECT * FROM observations")
