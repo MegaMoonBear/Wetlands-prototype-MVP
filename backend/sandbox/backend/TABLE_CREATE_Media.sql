@@ -26,13 +26,17 @@ CREATE TABLE observations (
 );
 
 -- Add an index to optimize queries filtering by is_deleted
-CREATE INDEX idx_observations_is_deleted ON observations (is_deleted); -- helps performance with soft delete 
+CREATE INDEX idx_observations_is_deleted ON observations (is_deleted);  -- Index for faster lookups by observation_UUID
+-- ✅ REFERENCES observations(id) does create a foreign key ("FK" not needed)
+    -- ✅ You should name the constraint explicitly in real projects
+    -- 🔒 Soft deletes are handled by schema design + queries, not comment or FKs
+CREATE INDEX idx_media_observation_UUID ON media (observation_UUID); -- Index for faster lookups by media_UUID
 
 -- OTHER database's tables 
 -- media table for observation_ID, media_ID, metadata_extracted, and storage_URL; and 
 CREATE TABLE media (
     id media_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    observation_UUID UUID REFERENCES observations(id), -- Soft delete reference
+    observation_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
     media_type ENUM('image', 'video', 'audio') NOT NULL, -- 
     metadata_extracted boolean DEFAULT FALSE, -- Y/N - flag for metadata extraction
     storage_url TEXT -- URL/path to media stored... in CLOUD or CACHE? 
@@ -41,7 +45,7 @@ CREATE TABLE media (
 -- Table to store EXIF metadata extracted from media files
 CREATE TABLE pic_metadata_exif (
     id SERIAL PRIMARY KEY,
-    media_id UUID REFERENCES media(id) ON DELETE CASCADE, -- Link to media table
+    media_id UUID REFERENCES media(id) ON DELETE CASCADE, -- References media table; soft deletes may be handled via observations.deleted_at
     camera_make TEXT, -- Camera manufacturer
     camera_model TEXT, -- Camera model
     datetime_original TIMESTAMP, -- Original date and time of capture
@@ -58,16 +62,31 @@ CREATE TABLE pic_metadata_exif (
 
 CREATE TABLE indicator_decompObs (
     id indicator_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    observation_UUID UUID REFERENCES observations(id), -- Soft delete reference
+    observation_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
     user_ID UUID REFERENCES Roles_Governance(id), -- FK to track user submitting or validating
     indicator_type ENUM('water', 'plant', 'animal', 'unknown'), -- Type of indicator of water flow or ecosystem health
     indicator_name TEXT, -- e.g., 'species_presence', 'water_flow', etc.
     severity_level ENUM('low', 'medium', 'high', 'unknown') -- Severity or significance level for the indicator, for example: species rarity or water contamination    
 );
 
+
+-- Table to store contact form submissions
+CREATE TABLE contact_form_submissions (
+    id user_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    contact_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
+    issue_type TEXT CHECK (issue_type IN ('problem', 'concern', 'feedback', 'technical', 'other')) NOT NULL, -- Dropdown options from contact.html
+    details TEXT CHECK (length(details) <= 160), -- Text box input limited to 160 characters
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Automatically record submission time
+    name TEXT NOT NULL,
+    response_preference TEXT CHECK (response_preference IN ('no', 'yes')) NOT NULL,
+    contact_method TEXT CHECK (contact_method IN ('email', 'text', 'call')),
+    contact_details TEXT
+); 
+
+-- Table to manage user roles, cohorts, and consent versions
 CREATE TABLE Roles_Governance (
     id user_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    observation_UUID UUID REFERENCES observations(id), -- Soft delete reference
+    observation_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
     user_role ENUM('admin/developer', 'public', 'professional reviewer') -- Tracks governance roles for users
     cohort ENUM('internal_testers', 'pilot_users', 'public_launch') -- User cohort for phased roll-out
     consent_version ENUM('v1.0', 'v1.1', 'v2.0') -- Tracks legal consent version agreed to by user
@@ -85,7 +104,7 @@ CREATE TABLE location (
     id location_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     latitude DOUBLE PRECISION,
     longitude DOUBLE PRECISION,
-    observation_UUID UUID REFERENCES observations(id), -- Soft delete reference
+    observation_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
     user_ID UUID REFERENCES Roles_Governance(id), -- FK to track user submitting or validating
     spatial_context ENUM(
         'site',            -- single parcel or point-of-interest
@@ -138,22 +157,20 @@ CREATE TABLE location (
     ) -- Data provenance for quality assurance
 );
 
-/* =========================================================
-   MAIN TABLE: Water observations (Phase 1)
-   Purpose:
+/* ==== Water observations (Phase 1) - Purpose: 
    - Capture AI- and user-observed ecological signals
-   - Use one indicator species + visual water traits
+   - Use ONE indicator species AND visual water traits, when available and identifiable 
    - Support early water quality inference without chemistry
+   - LATER phase will compare lab results of water samples for model validation (Neural Net training)
+    - Neural Net training goal: ID water bodies that may need further testing or intervention    
+    - Future phases will expand to multiple species and more complex indicators
    ========================================================= */
-
 CREATE TABLE water_observation (
     id water_obs_UUID PRIMARY KEY,
-
     -- Spatial and contextual references
     location_id UUID NOT NULL,
     waterbody_type_id INT NOT NULL,
     spatial_context_id INT,
-
     -- Indicator species (Phase 1: single species)
     indicator_species_id INT NOT NULL,
     indicator_decompObs_id UUID REFERENCES indicator_decompObs(id), -- FK to connect with indicator_decompObs
@@ -203,7 +220,7 @@ CREATE TABLE water_observation (
 
 
 /* ============  LOOKUP TABLES FOR ENUM REPLACEMENT (Phase 2) =================================== */
--- Remove ENUMs so they are fully replaced with "lookup tables" for... 
+-- Phase 2: Remove ENUMs so they are fully replaced with "lookup tables" for... 
 -- scalability and better integration with GIS layers, hydrology, and other references.
 
 

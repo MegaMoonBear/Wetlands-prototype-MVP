@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="./src/index.css"> <!-- Link to CSS file for styling -->
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <img src="logo192.png" alt="Logo" class="App-logo"> <!-- Logo at the top -->
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Contact Form -->
+    <main>
+        <h1>Contact Us</h1>
+        <form action="/submit-contact" method="POST">
+
+        <label for="topic">Select a Topic:</label>
+            <select id="topic" name="topic" required>
+                <option value="problem">Problem</option>
+                <option value="concern">Concern</option>
+                <option value="feedback">Positive Feedback</option>
+                <option value="technical">Technical Issue</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="details">Details (max 160 characters):</label>
+            <textarea id="details" name="details" maxlength="160" placeholder="Enter details here..." required></textarea>
+
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="response">Would you like a response?</label>
+            <select id="response" name="response" required>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+
+            <div id="contact-method-section" style="display: none;">
+                <label for="contact-method">Preferred Contact Method:</label>
+                <select id="contact-method" name="contact-method">
+                    <option value="email">Email</option>
+                    <option value="text">Text</option>
+                    <option value="call">Call</option>
+                </select>
+
+                <div id="contact-details-section" style="display: none;">
+                    <label for="contact-details">Contact Details:</label>
+                    <input type="text" id="contact-details" name="contact-details" placeholder="Enter your contact details">
+                </div>
+            </div>
+
+            <script>
+                const responseSelect = document.getElementById('response');
+                const contactMethodSection = document.getElementById('contact-method-section');
+                const contactMethodSelect = document.getElementById('contact-method');
+                const contactDetailsSection = document.getElementById('contact-details-section');
+                const contactDetailsInput = document.getElementById('contact-details');
+
+                responseSelect.addEventListener('change', () => {
+                    if (responseSelect.value === 'yes') {
+                        contactMethodSection.style.display = 'block';
+                    } else {
+                        contactMethodSection.style.display = 'none';
+                        contactDetailsSection.style.display = 'none';
+                        contactDetailsInput.value = '';
+                    }
+                });
+
+                contactMethodSelect.addEventListener('change', () => {
+                    contactDetailsSection.style.display = 'block';
+                    const method = contactMethodSelect.value;
+                    if (method === 'email') {
+                        contactDetailsInput.type = 'email';
+                        contactDetailsInput.placeholder = 'Enter your email';
+                    } else if (method === 'text' || method === 'call') {
+                        contactDetailsInput.type = 'tel';
+                        contactDetailsInput.placeholder = 'Enter your phone number';
+                    } else {
+                        contactDetailsInput.type = 'text';
+                        contactDetailsInput.placeholder = 'Enter your contact details';
+                    }
+                });
+            </script>
+
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+</body>
+</html>

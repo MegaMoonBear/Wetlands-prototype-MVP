@@ -1,5 +1,130 @@
+Primary███ | # Frontend Palette
 
-Gemini
+Logo is teal (Darker teals #0C948B, Deep Blue-Teal #2F6F73, or Soft Marine Teal #3F8C8E), black, white, and one small, medium-red accent (approximately #940c15 for red-ear slider's red accent; #B23A2C → #C4472D as terracotta-leaning reds) - see C:\Users\Meghan Carr\Desktop\Meghan - ALL til OneDrive\5-0 - Portfolio Projects\Wetland\Water prototype\Wetlands-prototype-MVP\frontend\public\WaterSnapMap_Logo_ChatGPT.png
+
+On partners' websites, photos and banners commonly use deep water blues / navy, forest & marsh greens, muted golds and reed/yellow-golds, and earth/cattail browns; skies and highlights add lighter blue and pale gray/white. 
+
+Pair dark, readable font colors with nature-toned accents. Use dark reds and Gold or Yellow sparingly as a call-to-action accent.
+
+# FUTURE
+    Run WCAG contrast pair checks
+    Create a Figma/Canva style tile
+    Simulate color-blind previews
+    Lock this into CSS variables / Tailwind tokens
+
+1. Palette logic (why this works)
+    Readability & eye strain
+
+    Body reading happens on very light, warm-neutral backgrounds (not stark white, not cool gray).
+
+    Text colors are dark, low-saturation blues/greens, which reduce glare compared to pure black.
+
+    Saturated colors (reds, golds, teal accents) are never used for body text.
+
+    Water & wetlands signal
+
+    Hue families: blue-teal + marsh green + reed gold + mud red
+
+    This mirrors Ducks Unlimited–style wetlands photography without copying it.
+
+    Color-blind safety
+
+    Critical distinctions rely on lightness + placement, not just hue.
+
+    Red and gold are accent-only and never paired together without separation.
+
+    Dark teal/blue chosen for text performs well across common color-vision deficiencies.
+
+2. Final chosen colors - 9 colors total, which is a sweet spot for consistency and accessibility
+    Headings, icons, accents
+        Deep Wetland Blue (primary text + headings)
+        Dark Teal / Bog (footer, nav bars, heavy emphasis)
+        Pond Teal / Deep Aqua (iconography, secondary accents)
+        Marsh Green (buttons, map layers, status indicators)
+        Crawfish / Mud Red (very sparing CTA / alert accent)
+
+    Light accents: Reed / Gold (CTA highlight, hover states, counts)
+
+    Backgrounds (2 total)
+        Off-white / Eggshell (primary reading surface)
+        Very Light Sage (secondary panels, cards, map UI)
+
+
+# Practical implementation rules (important)
+
+    Text
+
+    Body text: Deep Wetland Blue on Eggshell or Light Sage
+
+    Never use teal, red, or gold for paragraphs
+
+    Buttons
+
+    Default: Marsh Green background + white text
+
+    Hover: Marsh Green → slightly darker (not gold)
+
+    Critical CTA: Crawfish Red + white text (use once per screen max)
+
+    Maps & data layers
+
+    Base UI: Very Light Sage
+
+    Active layers: Pond Teal
+
+    Warnings/flags: Crawfish Red (icon only, not fills)
+
+    Gold usage
+
+    Treat gold like punctuation, not prose
+
+    Think: badges, counts, hover outlines, subtle dividers
+
+# Summaries - Table and text
+
+| Color Name              | Hex        | Recommended Use                                               |
+|-------------------------|------------|---------------------------------------------------------------|
+| Deep Wetland Blue       | #1B4F72  | Primary headings, body text on light backgrounds, form labels |
+| Dark Teal / Bog         | #133E3A  | Footer background, top navigation bar, emphasized headers     |
+| Pond Teal / Deep Aqua   | #0F7A87  | Icons, links, active states, map highlights                   |
+| Marsh Green (KEEP)      | #2F6B3A  | Primary buttons, toggles, success/status indicators           |
+| Crawfish / Mud Red      | #7A2E2E  | Critical call-to-action, alerts, rare emphasis only           |
+| Reed / Gold             | #B58F3B  | CTA hover states, badges, small numeric highlights            |
+| Off-white / Eggshell    | #F7F6F2  | Main page background, long-form reading areas                 |
+| Very Light Sage         | #F1F4EF  | Cards, panels, secondary sections, map UI background          |
+
+
+
+
+# INSTRUCTIONS for AI
+(A) Choose 3-5 for headings, icons, accents - Considering more common color-blind types, choose one of the darker colors for text. And define uses for all chosen colors. Reserve darker brand colors for headers, buttons, and emphasis so body text remains highly readable. Narrow this list, in consideration the 2 following lists. 
+Choose 1-2 of 3 blues/teals
+Deep Wetland Blue — #1B4F72 (dark, stable; good for headings) for darker fonts — both contrast well on light backgrounds
+Dark Teal / Bog — #133E3A (close to the darkest water shadows; for heavy type or footer backgrounds)
+Pond Teal / Deep Aqua — #0F7A87 (water accent)
+KEEP: Marsh Green — #2F6B3A (mid-dark green for blocks or buttons)
+KEEP: Crawfish / Mud Red — #7A2E2E (deep warm red; already used in logos/branding accents; Use sparingly as a call-to-action accent.)
+Choose 1-2 of the next 2, if useful.
+Cattail Brown — #6A4228 (rich brown for grounded accents)
+Mud / Deep Olive — #4A3F35 (alternative darker neutral)
+
+(B) Choose 1-2 light colors, for sparing accents, such as call-to-action
+Choose between yellow and gold, then use sparingly as a call-to-action accent.
+Beak Yellow — #E1C542 (small, friendly accent like a bird beak); OR 
+Reed / Gold — #B58F3B (warm accent, calls to marsh grass/sunlight)
+Choose between next 2, then use sparingly if useful as an accent or another use
+Pale Marsh Tan — #E8DCCF (off-white / warm paper background)
+Pale Water Blue — #D7ECF9 (header highlights or callouts)
+
+(C) Choose 1-2 background (reading-friendly, nature-inspired) - Use background colors at 95–100% area; reserve darker brand colors for headers, buttons, and emphasis so body text remains highly readable.
+Off-white / Eggshell — #F7F6F2 (main page background)
+Warm Sand — #ECE6DD (slightly warm, gentle contrast)
+Very Light Sage — #F1F4EF (soft, nature-leaning background option)
+
+
+
+# Canva 4-color palettes from AI-Generated Images by AI site: 
+## Gemini
 Moon Mist - light beige gray
 #e1e0d2
 Cabbage Pont - muted, darker green
@@ -9,7 +134,7 @@ Nutmeg - medium brown
 Sycamore - warm medium brown
 #a48a39
 
-Copilot 
+## Copilot 
 Kelp - dark muted green
 #50573d
 Coral Reef - ??? not pink coral, but muted coral
@@ -19,7 +144,7 @@ Bali Hai - light blue gray
 Tower Gray 
 #abb6b7
 
-ChatGPT
+## ChatGPT
 Celeste - light gray 
 #ced1c5
 Lunar Green - dark, hunter green
@@ -84,7 +209,7 @@ Pale Water Blue — #D7ECF9 (header highlights or callouts)
 
 (5) 2–4 background (reading-friendly, nature-inspired)
 
-Off-white / Eggsheel — #F7F6F2 (main page background)
+Off-white / Eggshell — #F7F6F2 (main page background)
 
 Warm Sand — #ECE6DD (slightly warm, gentle contrast)
 

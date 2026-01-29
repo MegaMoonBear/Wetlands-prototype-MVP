@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from 'C:\Users\Meghan Carr\Desktop\Meghan - ALL til OneDrive\5-0 - Portfolio Projects\Wetland\Water prototype\Wetlands-prototype-MVP\frontend\public\WaterSnapMap_Logo_ChatGPT.png';
 import './App.css';
 
 function App() {

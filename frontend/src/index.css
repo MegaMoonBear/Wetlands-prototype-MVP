@@ -1,13 +1,64 @@
+/* Color Palette Implementation */
+  /* Final chosen colors - listed at bottom of file */
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #F7F6F2; /* Off-white / Eggshell */
+  color: #1B4F72; /* Deep Wetland Blue */
+  font-family: Calibri, sans-serif;
 }
 
+header {
+  background-color: #133E3A; /* Dark Teal / Bog */
+  color: #F7F6F2; /* Off-white / Eggshell */
+}
+
+button {
+  background-color: #2F6B3A; /* Marsh Green */
+  color: white;
+}
+
+button:hover {
+  background-color: #265A2E; /* Slightly darker Marsh Green */
+}
+
+.critical-cta {
+  background-color: #7A2E2E; /* Crawfish / Mud Red */
+  color: white;
+}
+
+.card {
+  background-color: #F1F4EF; /* Very Light Sage */
+  color: #1B4F72; /* Deep Wetland Blue */
+}
+
+.icon {
+  color: #0F7A87; /* Pond Teal / Deep Aqua */
+}
+
+.badge {
+  background-color: #B58F3B; /* Reed / Gold */
+  color: white;
+}
+
+/* users will see code font styling if <code> elements in  HTML or React components. 
+  typically used to display inline code snippets or blocks of code. 
+  font family ensures that the code appears in a monospaced style - standard for readable programming */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Final chosen colors - 9 colors total, which is a sweet spot for consistency and accessibility
+    Headings, icons, accents
+        Deep Wetland Blue (primary text + headings)
+        Dark Teal / Bog (footer, nav bars, heavy emphasis)
+        Pond Teal / Deep Aqua (iconography, secondary accents)
+        Marsh Green (buttons, map layers, status indicators)
+        Crawfish / Mud Red (very sparing CTA / alert accent)
+
+    Light accents: Reed / Gold (CTA highlight, hover states, counts)
+
+    Backgrounds 
+        Off-white / Eggshell (primary reading surface)
+        Very Light Sage (secondary panels, cards, map UI) 
+*/

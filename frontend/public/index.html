@@ -1,43 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Snap & Map</title>
+    <link rel="stylesheet" href="./src/index.css"> <!-- Link to CSS file for styling -->
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <img src="logo192.png" alt="Logo" class="App-logo"> <!-- Logo at the top -->
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <!-- Banner Section -->
+    <header>
+        <h1>Try our Water Snap & Map!</h1>
+    </header>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <!-- Body Section -->
+    <main>
+        <h2>Welcome!</h2>
+        <p>Problem: Small wetlands help with water filtration and flood control, but they are often unmapped and overlooked.</p>
+        <p>Solution: A quick and easy app for citizen scientists to share map-ready data in under a minute.</p>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+        <!-- Call to Action -->
+        <h3>Upload a Photo</h3>
+        <p>Take a photo of a wetland and upload it to help map and monitor these vital areas.</p>
+        <input type="file" accept="image/*" id="photo-upload">
+        <button id="upload-button">Upload</button>
+        <p id="upload-message"></p> <!-- Placeholder for upload success message -->
+
+        <!-- AI Output Section -->
+        <section id="ai-output">
+            <h3>AI Analysis</h3>
+            <p>Your photo is being analyzed. Please wait for options.</p>
+            <div id="ai-options">
+                <p>Option 1: Merganser</p>
+                <p>Option 2: Similar Diver</p>
+                <p>Option 3: Another Option</p>
+            </div>
+        </section>
+
+        <!-- Future Plans -->
+        <footer>
+            <p>Coming soon: More tools to explore and protect wetlands!</p>
+        </footer>
+    </main>
+</body>
 </html>

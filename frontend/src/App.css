@@ -5,35 +5,64 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  border-radius: 50%; /* Rounds the corners */
+  object-fit: cover; /* Ensures the image scales properly */
+  clip-path: inset(16.66%); /* Removes 1/6th of the width and height from all sides */
 }
 
-/* Removed the spinning animation for the App logo */
-/* @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-} */
+/* Updated font family */
+body {
+  font-family: Calibri, sans-serif;
+}
+
+/* color reference list at bottom */
 
 .App-header {
-  background-color: #282c34;
+  background-color: #133E3A; /* Dark Teal / Bog */
+  color: #F7F6F2; /* Off-white / Eggshell */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {
-  color: #61dafb;
+  color: #0F7A87; /* Pond Teal / Deep Aqua */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+  background-color: #2F6B3A; /* Marsh Green */
+  color: white;
 }
+
+button:hover {
+  background-color: #265A2E; /* Slightly darker Marsh Green */
+}
+
+.critical-cta {
+  background-color: #7A2E2E; /* Crawfish / Mud Red */
+  color: white;
+}
+
+.badge {
+  background-color: #B58F3B; /* Reed / Gold */
+  color: white;
+}
+
+
+/* Final chosen colors - 9 colors total, which is a sweet spot for consistency and accessibility
+    Headings, icons, accents
+        Deep Wetland Blue (primary text + headings)
+        Dark Teal / Bog (footer, nav bars, heavy emphasis)
+        Pond Teal / Deep Aqua (iconography, secondary accents)
+        Marsh Green (buttons, map layers, status indicators)
+        Crawfish / Mud Red (very sparing CTA / alert accent)
+
+    Light accents: Reed / Gold (CTA highlight, hover states, counts)
+
+    Backgrounds 
+        Off-white / Eggshell (primary reading surface)
+        Very Light Sage (secondary panels, cards, map UI) 
+*/
