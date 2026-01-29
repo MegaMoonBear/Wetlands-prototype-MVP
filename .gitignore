@@ -16,9 +16,33 @@ images/
 *.jpeg
 *.png
 
-# OS / editor files
-.DS_Store
-.vscode/
+
+
+# Hugging Face cache folder
+Llama-3.2-11B-Vision-Instruct/.cache/huggingface/
 
 # Logs and temporary files
+logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# OS / editor files - Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
