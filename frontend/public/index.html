@@ -9,7 +9,7 @@
 <body>
     <!-- Navigation Bar -->
     <nav>
-        <img src="C:\Users\Meghan Carr\Desktop\Meghan - ALL til OneDrive\5-0 - Portfolio Projects\Wetland\Water prototype\Wetlands-prototype-MVP\frontend\public\WaterSnapMap_Logo_ChatGPT.png" alt="Logo" class="App-logo"> <!-- Logo at the top -->
+        <img src="./assets/WaterSnapMap_Logo_ChatGPT.png" alt="Logo" class="App-logo"> <!-- Logo at the top -->
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="contact.html">Contact</a></li>
@@ -26,46 +26,72 @@
         <h2>Welcome!</h2>
         <p>Water is in small places many of us pass every day. Every stream, pond, and puddle helps clean our water and reduce flooding. </p>
         <p>With this app, you take a quick photo of water or a wetland. Then easily share it in under a minute to help others learn.</p> <!-- "you" = citizen-scientists -->
-        
+        <img src="./assets/banners_othGraphic/WSMap_rect_rough_crawBANNER - ChatGPT.png" alt="Wetlands banner placeholder" />
         <h3>Share a water photo</h3> 
         <!-- Softer Calls to Action: Take a quick look, See how it works, Try one photo-->
-        <p>See how it works</p>
-          <img> alt="Diagram placeholder" />
-          <url>YouTube video link placeholder</url>
+          <ol>
+            <li>Take a photo of water or a wetland. </li>
+            <li>Click "Choose file", then select one photo. </li>
+            <li>Click the green "Upload" button to submit your photo. </li>
+            <li>Wait a moment while AI analyzes, then describes your photo. </li>
+            <!-- PHASE 2-3 PLANS:
+            <li>See 3 possible IDs for a key plant or animal in your photo. </li>
+            <li>Select the best match to help us learn more about wetlands. </li -->
+          </ol>
+          <p>Your photo will teach us about these vital water resources.</p>
         <br>
 
-        <!-- my current main goals to (1) simplify text and process for user to upload one picture; (2) get an AI to describe an image (3) identify  the best indicator in picture (animal, plant, or "water status") to prepare for next step; (4) provide 3 possible identifications for that one indicator so the user can choose; (5) collect user's selection; (Save for phase 2 or 3: provide AI's full description to user) -->
-        <p>Take a photo of water or a wetland and upload it to teach us about these vital areas.</p>
-        <Summary>Click for 3 simple photo tips for your phone
-          <details> 
-            <ul>
-              <li>Take the photo from a bridge, path, or safe spot.</li>
-              <li>Get close to the water but avoid reflections.</li>
-              <li>Include plants or animals if you can.</li>
-              <li>Try to keep the camera steady for a clear shot.</li>
-            </ul>
-          </details>
-        </Summary>
+        <!-- my current main goals: 
+          (1) simplify text and process for user to upload one picture; 
+          (2) get an AI to describe an image 
+          (3) identify a single, best indicator in picture (animal, plant, or "water status") to prepare for next step; 
+          (4) provide 3 possible identifications for that one indicator so the user can choose; 
+          (5) collect user's selection; (Save for phase 2 or 3: provide AI's full description to user) --> 
 
-        <p>For your first, we recommend visiting a bridge with a sidewalk over a concrete or natural waterway. Click here for more suggestions for your neighborhood and beyond!</p>
+        <!-- Photo Upload Section -->
         <input type="file" accept="image/*" id="photo-upload">
         <button id="upload-button">Upload</button>
         <p id="upload-message"></p> <!-- Placeholder for upload success message -->
+        
+        <Summary><p>Click arrow at left of "Details" for easy photo tips. </p> 
+          <details>
+            <p> WHERE: Look for puddles or creeks during your day. Try a bridge with a sidewalk that crosses a natural or concrete waterway. </p>
+            </p><!-- <p>Find ideas for places near you and beyond.</p> ...FOR PHASE 2-3   -->
+            <p> HOW - Tips: </p>
+            <ul>
+              <li>Take the photo from a safe spot like a bridge's sidewalk, path, or other stable area.</li>
+              <li>Include plants or animals if you can.</li>
+              <li>Try to keep the camera steadier.</li>
+            </ul>
+            <p> HOW MUCH: Even if a puddle is temporary, our minimum size is: filled kiddie pool, or if shallow: 1-inch deep oval that fills a parking space.  </p>
+            <img alt="Photo tips diagram placeholder" />
+            <img> alt="Kiddie pool and parking-space diagrams' placeholder" />
+            <br>
+
+            <img src="./assets/diagram_placeholder.png" alt="Pic upload - diagram placeholder" />
+            <br>
+
+            <url>YouTube video link placeholder</url>
+            <br>
+          </details>
+        </Summary>
 
         <!-- AI Output Section -->
         <section id="ai-output">
             <h3>AI Analysis</h3>
-            <p>Your photo is being analyzed. Please wait for options.</p>
-            <div id="ai-options">
-                <p>Option 1: Merganser</p>
+            <p>Your photo is being analyzed. Please wait for a description.</p>
+            <!-- <p>Your photo is being analyzed. Please wait for options.</p>
+             <div id="ai-options">
+                <p>Option 1: Merganser (diving duck)</p>
                 <p>Option 2: Similar Diver</p>
                 <p>Option 3: Another Option</p>
-            </div>
+            </div> -->
         </section>
 
         <!-- Future Plans -->
         <footer>
-            <p>Coming soon: More tools to explore and protect wetlands!</p>
+          <img src="./assets/banners_othGraphic/WSMap_rect_detailed_slider.png" alt="Water Snap & Map detailed slider banner" />
+          <h3>Coming soon: More tools to explore and protect wetlands!</h3>
         </footer>
     </main>
 </body>

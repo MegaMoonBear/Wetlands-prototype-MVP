@@ -46,8 +46,8 @@ def seed_database():
         cursor = conn.cursor()
 
         # Iterate through images in the folder
-        for image_name in os.listdir(IMAGES_FOLDER):
-            image_path = os.path.join(IMAGES_FOLDER, image_name)
+        for image_name in os.listdir("frontend/src/assets/images"):
+            image_path = os.path.join("frontend/src/assets/images", image_name)
             if os.path.isfile(image_path):
                 # Insert sample data into the database
                 cursor.execute("""
