@@ -14,11 +14,12 @@ CREATE TABLE observations (
     user_UUID TEXT,
     tags_user_device TEXT[], -- Tags from user/device 
     tags_AI_ConfidL ENUM, -- Confidence level for primary/first AI-suggested tag
-    tags_AI_Option1 TEXT, -- Tags from AI option 1
-    tags_AI_Option2 TEXT, -- Tags from AI option 2
-    tags_AI_Option3 TEXT, -- Tags from AI option 3
-    tag_user_Selected1 TEXT, -- Tag selected by user in app - only 1
-    tag_user_Selected1_ConfidL ENUM, -- Confidence level for 1 user-selected tag
+    tag_OptionONLY_P1 TEXT, -- Primary/first AI-suggested tag only
+    -- tags_AI_Option1 TEXT, -- Tags from AI option 1
+    -- tags_AI_Option2 TEXT, -- Tags from AI option 2
+    -- tags_AI_Option3 TEXT, -- Tags from AI option 3
+    -- tag_user_Selected1 TEXT, -- Tag selected by user in app - only 1
+    -- tag_user_Selected1_ConfidL ENUM, -- Confidence level for 1 user-selected tag
     validation_status ENUM('pending', 'validated', 'rejected') DEFAULT 'pending', 
     -- V-status for user-selected tag
     validation_reject ENUM('updated', 'awaiting expert review', 'unidentifiable') DEFAULT 'awaiting expert review',
@@ -267,3 +268,11 @@ CREATE TABLE classification_source_lookup (
 );
 -- These lookup tables will replace the ENUM fields in the main tables
 -- during Phase 2 of the database schema update.
+
+-- Table to store suggestions or feedback from the suggestions form
+CREATE TABLE suggestions_form_submissions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    feedback TEXT CHECK (length(feedback) <= 500) NOT NULL, -- Feedback text limited to 500 characters
+    name TEXT CHECK (length(name) <= 100), -- Optional name field limited to 100 characters
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Automatically record submission time
+);

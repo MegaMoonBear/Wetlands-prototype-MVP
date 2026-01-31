@@ -5,38 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Water Snap & Map</title>
     <link rel="stylesheet" href="./src/index.css"> <!-- Link to CSS file for styling -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> <!-- WSMap logo updated to be Favicon on browser tab -->
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav>
-        <img src="./assets/WaterSnapMap_Logo_ChatGPT.png" alt="Logo" class="App-logo"> <!-- Logo at the top -->
+        <!-- <img src="/WaterSnapMap_Logo_ChatGPT.png" alt="Logo" class="App-logo" width="20px" height="50px">  -->
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="contact.html">Contact</a></li>
+            <li><a href="suggestions.html">Suggestions</a></li>
         </ul>
     </nav>
 
     <!-- Banner Section -->
     <header>
-        <h1>Try our Water Snap & Map!</h1>
+        <img src="WaterSnapMap_Logo_ChatGPT.png" alt="Logo" width="70px" height="70px"> <!-- Logo at the top -->
+        <h1>Try Water Snap & Map!</h1>
     </header>
 
     <!-- Body Section -->
     <main>
         <h2>Welcome!</h2>
-        <p>Water is in small places many of us pass every day. Every stream, pond, and puddle helps clean our water and reduce flooding. </p>
-        <p>With this app, you take a quick photo of water or a wetland. Then easily share it in under a minute to help others learn.</p> <!-- "you" = citizen-scientists -->
-        <img src="./assets/banners_othGraphic/WSMap_rect_rough_crawBANNER - ChatGPT.png" alt="Wetlands banner placeholder" />
+        <p>Many of us see natural water in our neighborhoods. Even small streams and ponds help clean our water and reduce flooding. Share a photo to support vital water resources.</p>
+        <p>Take a photo of water or a wetland. In under a minute, easily share it with this app.</p> <!-- "you" = citizen-scientists -->
+        <!-- <img src="./assets/banners_othGraphic/WSMap_rect_rough_crawBANNER - ChatGPT.png" alt="Wetlands banner placeholder" /> -->
         <h3>Share a water photo</h3> 
         <!-- Softer Calls to Action: Take a quick look, See how it works, Try one photo-->
           <ol>
-            <li>Take a photo of water or a wetland. </li>
-            <li>Click "Choose file", then select one photo. </li>
-            <li>Click the green "Upload" button to submit your photo. </li>
-            <li>Wait a moment while AI analyzes, then describes your photo. </li>
+            <li>Find one of your photos of water or a wetland. </li>
+            <li>Click "Choose File" button, then select that photo. </li>
+            <li>Click the green "Upload" button to submit. </li>
+            <!-- <li>Ignore or read a description of your photo. </li> -->
+            <!-- <li>Wait a moment while AI analyzes, then describes your photo. </li> -->
             <!-- PHASE 2-3 PLANS:
             <li>See 3 possible IDs for a key plant or animal in your photo. </li>
-            <li>Select the best match to help us learn more about wetlands. </li -->
+            <li>Let the AI choose, or select the best match to help us learn more about wetlands. </li -->
           </ol>
           <p>Your photo will teach us about these vital water resources.</p>
         <br>
@@ -53,10 +57,10 @@
         <button id="upload-button">Upload</button>
         <p id="upload-message"></p> <!-- Placeholder for upload success message -->
         
-        <Summary><p>Click arrow at left of "Details" for easy photo tips. </p> 
+        <Summary><p>For easy photo tips, click right-arrow (below - next to "Details"). </p> 
+          <!-- Right-arrow as solid triangle &#9654; -->
           <details>
             <p> WHERE: Look for puddles or creeks during your day. Try a bridge with a sidewalk that crosses a natural or concrete waterway. </p>
-            </p><!-- <p>Find ideas for places near you and beyond.</p> ...FOR PHASE 2-3   -->
             <p> HOW - Tips: </p>
             <ul>
               <li>Take the photo from a safe spot like a bridge's sidewalk, path, or other stable area.</li>
@@ -64,18 +68,35 @@
               <li>Try to keep the camera steadier.</li>
             </ul>
             <p> HOW MUCH: Even if a puddle is temporary, our minimum size is: filled kiddie pool, or if shallow: 1-inch deep oval that fills a parking space.  </p>
-            <img alt="Photo tips diagram placeholder" />
-            <img> alt="Kiddie pool and parking-space diagrams' placeholder" />
-            <br>
+              <!-- <img alt="Photo tips diagram placeholder" />
+              <img> alt="Kiddie pool and parking-space diagrams' placeholder" />
+              <br>
 
-            <img src="./assets/diagram_placeholder.png" alt="Pic upload - diagram placeholder" />
-            <br>
+              <img src="./assets/diagram_placeholder.png" alt="Pic upload - diagram placeholder" />
+              <br>
 
-            <url>YouTube video link placeholder</url>
+              <url>YouTube video link placeholder</url> -->
+            <br> 
+            <br>
             <br>
           </details>
         </Summary>
 
+        <br>
+        <!-- Buttons for Next Steps -->
+        <div class="buttons_PostUpload">
+          <h4>Finished or more time? </h4> 
+          <p> Done - How long to choose and upload your photo? </p>
+            <button>Less than or at 1 min.</button> <!-- Button functionality handled in App.jsx -->
+            <button>More than 1 min.</button> <!-- Button functionality handled in App.jsx -->
+            <br>
+          <p> One more minute - What will you do next? </p>
+            <button>Wait for description</button>
+            <button>Submit another photo</button>
+        </div>
+
+
+        <br>
         <!-- AI Output Section -->
         <section id="ai-output">
             <h3>AI Analysis</h3>
@@ -90,8 +111,8 @@
 
         <!-- Future Plans -->
         <footer>
-          <img src="./assets/banners_othGraphic/WSMap_rect_detailed_slider.png" alt="Water Snap & Map detailed slider banner" />
-          <h3>Coming soon: More tools to explore and protect wetlands!</h3>
+          <!-- <img src="./assets/banners_othGraphic/WSMap_rect_detailed_slider.png" alt="Water Snap & Map detailed slider banner" /> -->
+          <p>Coming soon: More ways to explore and protect water resources - Click "Contact" at the top to tell us how. Or answer our 3-question <url "survey"></url>. Join our LinkedIn group to learn more and have a greater impact!</p>
         </footer>
     </main>
 </body>

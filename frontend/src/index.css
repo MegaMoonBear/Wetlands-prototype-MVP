@@ -8,8 +8,22 @@ body {
 }
 
 header {
-  background-color: #133E3A; /* Dark Teal / Bog */
-  color: #F7F6F2; /* Off-white / Eggshell */
+  display: flex; /* Align items horizontally */
+  align-items: center; /* Vertically center items */
+  justify-content: flex-start; /* Align items to the left */
+  padding: 10px; /* Add padding around the header */
+}
+
+header img {
+  width: 70px; /* Adjust logo width */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 20px; /* Space between logo and heading */
+  margin-left: 15px; /* Align with nav bar's first item */
+}
+
+header h1 {
+  margin: 0; /* Remove default margins */
+  color: #1B4F72; /* Deep Wetland Blue */
 }
 
 button {
@@ -62,3 +76,37 @@ code {
         Off-white / Eggshell (primary reading surface)
         Very Light Sage (secondary panels, cards, map UI) 
 */
+
+/* Styling for the navigation bar */
+nav {
+  display: flex; /* Align items horizontally */
+  align-items: center; /* Vertically center items */
+  background-color: #133E3A; /* Dark Teal / Bog */
+  padding: 10px;
+}
+
+nav img {
+  width: 50px; /* Adjust logo width */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 15px; /* Space between logo and nav items */
+}
+
+nav ul {
+  list-style: none; /* Remove bullets */
+  display: flex; /* Display items horizontally */
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin-right: 20px; /* Space between nav items */
+}
+
+nav ul li a {
+  color: #F7F6F2; /* Off-white / Eggshell */
+  text-decoration: none; /* Remove underline */
+}
+
+nav ul li a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
