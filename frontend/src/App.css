@@ -13,6 +13,7 @@
 /* Updated font family */
 body {
   font-family: Calibri, sans-serif;
+  background-color: #FFEBCD; /* blanched almond (#FFEBCD); Prior: Off-white / Eggshell (#F7F6F2) */
 }
 
 /* color reference list at bottom */

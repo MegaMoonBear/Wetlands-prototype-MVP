@@ -52,9 +52,11 @@ function App() {
       <button onClick={fetchFact}>Wait for description</button> {/* Display database fact (next line) in index.html */}
                 {/* While waiting... Another user's photo included a cattail, which are common wetland plants. */}
       <button onClick={triggerFileUpload}>Submit Another Photo</button> {/* Trigger file "upload" in index.html */} 
-    </>                                 {/* Closing React Fragment from Line 37 - find "return" section */}
-  )
+    </>
+  )                                                   
+// Prior symbols close return JSX structure of "App" component and React Fragment from Lines 37-38 - find "return" section                                
 }
+// End of App component definition from Line 5
 
 // Export the App component as the default export of this module to be used in other parts of the application
 export default App 

@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
-    <link rel="stylesheet" href="./src/index.css"> <!-- Link to CSS file for styling -->
+    <link rel="stylesheet" href="./src/index.css"> <!-- Link to the main CSS file for consistent styling -->
 </head>
 
 <body>
     <!-- Navigation Bar -->
     <nav>
-        <!-- <img src="WaterSnapMap_Logo_ChatGPT.png" alt="Logo" class="App-logo"> -->
         <ul>
-            <li><a href="index.html">Home</a></li> 
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="index.html">Home</a></li> <!-- Link to the Home page -->
+            <li><a href="contact.html">Contact</a></li> <!-- Link to the Contact page -->
         </ul>
     </nav>
 
@@ -22,74 +21,59 @@
         <h1>Contact Us</h1>
         <form action="/submit-contact" method="POST"> <!-- Form submission to the backend -->
 
+            <p>Please share below. We value your input and will consider your comments in our next development phases.</p>
+
+            <!-- Dropdown for selecting the topic of the message -->
             <label for="topic">Select a Topic:</label>
-            <select id="topic" name="topic" required> <!-- Dropdown for topic selection -->
-                <option value="problem">Problem</option>
-                <option value="concern">Concern</option>
-                <option value="feedback">Positive Feedback</option>
-                <option value="technical">Technical Issue</option>
-                <option value="other">Other</option>
+            <select id="topic" name="topic" required>
+                <option value="technical">Technical Issue</option> <!-- Option for reporting technical issues -->
+                <option value="feedback">Constructive Feedback</option> <!-- Option for constructive feedback -->
+                <option value="positive">Positive Feedback</option> <!-- Option for positive feedback -->
+                <option value="mixed">Mixed Feedback</option> <!-- Option for mixed feedback -->
+                <option value="other">Other (please specify in "Details")</option> <!-- Option for other topics -->
             </select>
 
+            <br>
+
+            <!-- Text area for entering detailed feedback or comments -->
             <label for="details">Details (maximum: 160 characters):</label>
-            <textarea id="details" name="details" maxlength="160" placeholder="Enter details here..." required></textarea> <!-- Text area for user details -->
+            <textarea id="details" name="details" maxlength="160" placeholder="Enter details here..." required></textarea>
 
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required> <!-- Input field for user name -->
-
+            <!-- Dropdown for selecting if the user wants a response -->
             <label for="response">Would you like a response?</label>
-            <select id="response" name="response" required> <!-- Dropdown for response preference -->
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
+            <select id="response" name="response" required>
+                <option value="no">No</option> <!-- Option for no response -->
+                <option value="yes">Yes</option> <!-- Option for requesting a response -->
             </select>
 
-            <div id="contact-method-section" style="display: none;"> <!-- Section for contact method, hidden by default -->
+            <br>
+
+            <!-- Section for selecting the preferred contact method, hidden by default -->
+            <div id="contact-method-section" style="display: none;">
                 <label for="contact-method">Preferred Contact Method:</label>
-                <select id="contact-method" name="contact-method"> <!-- Dropdown for contact method -->
-                    <option value="email">Email</option>
-                    <option value="text">Text</option>
-                    <option value="call">Call</option>
+                <select id="contact-method" name="contact-method">
+                    <option value="">Select a method</option> <!-- Placeholder option -->
+                    <option value="email">Email</option> <!-- Option for email contact -->
+                    <option value="text">Text</option> <!-- Option for text contact -->
+                    <option value="call">Call</option> <!-- Option for call contact -->
                 </select>
 
-                <div id="contact-details-section" style="display: none;"> <!-- Section for contact details, hidden by default -->
+                <br>
+
+                <!-- Section for entering contact details, hidden by default -->
+                <div id="contact-details-section" style="display: none;">
                     <label for="contact-details">Contact Details:</label>
-                    <input type="text" id="contact-details" name="contact-details" placeholder="Enter your contact details"> <!-- Input field for contact details -->
+                    <input
+                        id="contact-details"
+                        name="contact-details"
+                        type="text"
+                        placeholder="Enter your contact details"
+                    > <!-- Input field for contact details -->
                 </div>
-            </div>
+            </div> 
 
-            <script>
-                // JavaScript to dynamically show/hide sections based on user input
-                const responseSelect = document.getElementById('response');
-                const contactMethodSection = document.getElementById('contact-method-section');
-                const contactMethodSelect = document.getElementById('contact-method');
-                const contactDetailsSection = document.getElementById('contact-details-section');
-                const contactDetailsInput = document.getElementById('contact-details');
-
-                responseSelect.addEventListener('change', () => {
-                    if (responseSelect.value === 'yes') {
-                        contactMethodSection.style.display = 'block'; // Show contact method section if response is yes
-                    } else {
-                        contactMethodSection.style.display = 'none'; // Hide contact method section if response is no
-                        contactDetailsSection.style.display = 'none'; // Hide contact details section
-                        contactDetailsInput.value = ''; // Clear contact details input
-                    }
-                });
-
-                contactMethodSelect.addEventListener('change', () => {
-                    contactDetailsSection.style.display = 'block'; // Show contact details section
-                    const method = contactMethodSelect.value;
-                    if (method === 'email') {
-                        contactDetailsInput.type = 'email'; // Set input type to email
-                        contactDetailsInput.placeholder = 'Enter your email';
-                    } else if (method === 'text' || method === 'call') {
-                        contactDetailsInput.type = 'tel'; // Set input type to telephone
-                        contactDetailsInput.placeholder = 'Enter your phone number';
-                    } else {
-                        contactDetailsInput.type = 'text'; // Default input type
-                        contactDetailsInput.placeholder = 'Enter your contact details';
-                    }
-                });
-            </script>
+            <!-- Link to the JavaScript file for handling dynamic form behavior -->
+            <script src="./path/to/contact.js"></script>
 
             <button type="submit">Submit</button> <!-- Submit button for the form -->
         </form>
