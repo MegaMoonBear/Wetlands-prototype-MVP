@@ -2,7 +2,7 @@
     # Backend Logic - Handles core functionality & data processing for Wetlands MVP
 
 # Import the Model_RAG_response module for image processing
-from backend.sandbox.backend.Model_RAG_response import ollama
+from backend.Model_RAG_response import ollama
 # Replicates functionality demonstrated in Model_RAG_response.py but... 
 
 # Adapted from Model_RAG_response.py for integration into the main application workflow
