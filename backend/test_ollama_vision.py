@@ -7,7 +7,7 @@
 
 import pytest
 from unittest.mock import patch
-from ollama_vision import analyze_wetland_image
+# from ollama_vision import analyze_wetland_image
 
 
 # ------------------------

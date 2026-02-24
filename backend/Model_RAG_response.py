@@ -1,6 +1,8 @@
 import ollama
 
 #  post request and image as route to ollama LLaMA Vision model
+    #  Wrap in a function, so it doesn't execute on import and can be easily tested with mocks in unit tests.
+def analyze_wetland_image(image_path: str):
 response = ollama.chat(
     model='llama3.2-vision',
     messages=[{
