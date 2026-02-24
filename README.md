@@ -87,3 +87,55 @@ python-dotenv
     Loads API keys from .env
     Keeps secrets out of code and GitHub
   Reviewer signal: You understand security basics
+
+## Instructions to Deploy Locally
+
+### Prerequisites
+- Python 3.8 or higher
+- Node.js and npm
+- PostgreSQL database
+
+### Backend Setup
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd Wetlands-prototype-MVP/backend
+   ```
+2. Create a virtual environment and activate it:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate # On Windows: venv\Scripts\activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Set up the database:
+   - Create a PostgreSQL database.
+   - Update `database_url.env` with your database credentials.
+   - Run the SQL script to create tables:
+     ```bash
+     psql -U <username> -d <database_name> -f TABLE_CREATE.sql
+     ```
+5. Start the backend server:
+   ```bash
+   python main.py
+   ```
+
+### Frontend Setup
+1. Navigate to the frontend directory:
+   ```bash
+   cd ../frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+### Access the Application
+- Open your browser and navigate to `http://localhost:3000` to access the frontend.
+- The backend API will be running at `http://localhost:5000`.
