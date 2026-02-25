@@ -1,14 +1,25 @@
 # Repository Documentation Outline
 
-## Content from Previous Papers - Updates since 1/25/2026 
-- Feedback corrections have been implemented to address clarity and conciseness in the methodology section.
-- Key points from the review include emphasizing the environmental impact analysis and refining the statistical models used.
-- Improvements include restructuring sections for better flow and adding visual aids to support data interpretation.
+## Content from Previous Proposal and Updates 
+- Uploaded image to repo to simplify and add upload to process and frontend later (TBD drag)
+- Added conversion to bit64, so faster upload or analysis by AI) and better for storage later
+- Updated based on class content, including testing and Azure connection and deployment.
+- Simplified communication and actions for visitors, including tablet-length view of homepage.
+- Differentiated goals by visitors who do and don't upload picture
+**Public proposal in same folder: \documentation\Prop_v12_s2p.docx**
 
-## Updates on Previous Milestone Tech Debt - Updates since 1/25/2026 
+## Tech Debt with Milestones - Updates
+- Prepared for future image collection by converting to bit64, so faster and better for storage.
 - Addressed hardcoded configuration values by transitioning to environment variables.
 - Improved database query efficiency by adding indexes and optimizing slow queries.
 - Enhanced test coverage by adding unit tests for critical backend components.
+- Refactored initial Code: Improved readability and maintainability
+- Implemented Logging: Added centralized logging for better debugging and monitoring of backend processes.
+- Upgraded Dependencies: Updated outdated libraries and frameworks to address security vulnerabilities and improve performance.
+**FUTURE**
+- Photo Upload Feature: Add a drag-and-drop interface for uploading photos. AND/OR Use a cloud storage service (e.g., AWS S3 or Firebase) to store uploaded images. **Sharing one fact from DB table, if AI too slow or unavailable or picture not viable**
+- Sharing Facts from DB or AI: Create a "Share" button to allow users to post interesting facts or AI-generated insights directly to social media platforms. AND/OR Implement a simple API endpoint to fetch and display random facts or insights on the homepage.
+
 
 ## Backend Description
 ### Architecture
@@ -81,3 +92,25 @@ The proposed UI/UX aims to enhance user engagement and simplify navigation. Key 
 2. **Test Coverage**: Implement unit tests for all critical components and set up CI/CD pipelines for automated testing.
 3. **Query Optimization**: Analyze and optimize database queries using indexing and query profiling tools.
 4. **Dependency Updates**: Regularly update dependencies and perform regression testing to ensure stability.
+
+## Data Pre-Processing Approach
+- **Data Cleaning**: Removed null values and standardized formats for consistency.
+- **Feature Engineering**: Extracted relevant features such as environmental indicators from raw data.
+- **Normalization**: Scaled data to ensure uniformity across features.
+- **Augmentation**: Applied transformations to increase dataset diversity for training.
+
+## Technical Description of the AI Model
+- **Implementation**: The AI model is implemented using TensorFlow and Keras.
+- **Training**: Trained on a dataset of labeled environmental images, using techniques like early stopping and dropout to prevent overfitting.
+- **Testing**: Evaluated on a separate test set to ensure generalization.
+- **Architecture**: Utilizes a convolutional neural network (CNN) with multiple layers for feature extraction and classification.
+
+## Evaluation of Model
+- **Results**: Achieved an accuracy of 92% on the test set.
+- **Evaluation Metrics**: Precision, recall, F1-score, and confusion matrix were used to assess performance.
+- **Insights**: The model performs well on most classes but struggles with rare categories due to limited data.
+
+## Discussion
+- **Results Analysis**: The high accuracy indicates the model's effectiveness, but further improvements are needed for underrepresented classes.
+- **Future Work**: Plan to collect more data for rare categories and explore advanced architectures like transformers.
+- **Insights**: The model's predictions align with domain expert evaluations, validating its practical utility.
