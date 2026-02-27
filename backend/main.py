@@ -180,19 +180,23 @@ async def identify(user_id: str, image: UploadFile = File(...)):
 # This is a critical function that connects the frontend's upload button to the backend logic
 @app.post("/api/images", status_code=201)
 def upload_image(file: UploadFile, description: str):
-    if not file.content_type.startswith("image/"):
+    if not file.content_type or not file.content_type.startswith("image/"):
         # Validate that the uploaded file is an image
         raise HTTPException(status_code=400, detail="Uploaded file must be an image.")
 
-    # Save the uploaded file to the server
-    file_extension = os.path.splitext(file.filename)[1]  # Extract file extension
-    unique_filename = f"{uuid.uuid4().hex}{file_extension}"  # Generate a unique filename
+    # Ensure the file has a valid filename; use default if None
+    original_name = file.filename or "upload.jpg"
+    file_extension = os.path.splitext(original_name)[1] or ".jpg"  # Extract file extension or use default
+
+    # Generate a unique filename for saving the file
+    unique_filename = f"{uuid.uuid4().hex}{file_extension}"
     file_path = os.path.join(UPLOAD_DIR, unique_filename)  # Full path for saving the file
 
+    # Save the file content to the server
     with open(file_path, "wb") as f:
         f.write(file.file.read())  # Write the file content to the server
 
-    # Add metadata to in-memory storage
+    # Add metadata about the uploaded file to in-memory storage
     new_image = {
         "file_name": unique_filename,  # Store the unique filename
         "description": description  # Store the user-provided description

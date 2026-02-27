@@ -98,6 +98,13 @@ python-dotenv
     Keeps secrets out of code and GitHub
   Reviewer signal: You understand security basics
 
+EXIF 
+  Why: Extracts EXIF metadata from an uploaded file and inserts into pic_metadata_exif table in DB - **Files** 
+    db_utils.py:27-77: Manages database operations, specifically with function to insert EXIF metadata (e.g., datetime_original, altitude) into pic_metadata_exif table.
+    routes.py:59-75: Handles EXIF extraction from uploaded files, validates the data, and calls db_utils.py to save it.
+    TABLE_CREATE.sql:47-65: Defines pic_metadata_exif table schema, then the database table will be used to store EXIF metadata.
+  Reviewer signal: Show that I use existing data so less asked of users (high data value WITH low user time and effort)
+
 ## Instructions to Deploy Locally
 
 ### Prerequisites
