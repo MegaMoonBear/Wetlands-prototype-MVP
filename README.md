@@ -48,6 +48,16 @@ Cloning:
   
   Make a simple API call
 
+  <!-- The connection between the "upload" button on the frontend's "home" page and the POST syntax in the backend's main.py file is established as follows:
+
+    Frontend (index.html, Lines 56-57):
+    The <input> element with id="photo-upload" allows users to select an image file.
+    The <button> element with id="upload-button" triggers the upload process.
+
+    Backend (main.py, Lines 134 onward):
+    The POST endpoint /api/images in main.py handles the uploaded image file and processes it. 
+  -->
+
 ## DEPENDENCIES - What each dependency is doing (and why it belongs)
 fastapi
   Why:
