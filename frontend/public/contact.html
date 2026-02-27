@@ -3,23 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
+    <title>Feedback</title>
     <link rel="stylesheet" href="./src/index.css"> <!-- Link to the main CSS file for consistent styling -->
 </head>
 
-<body>
+<body style="background-color: blanchedalmond; font-family: Arial, sans-serif; color: #333;"> <!-- Applied consistent styling -->
     <!-- Navigation Bar -->
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li> <!-- Link to the Home page -->
-            <li><a href="contact.html">Contact</a></li> <!-- Link to the Contact page -->
+    <nav style="background-color: #133E3A; color: white; padding: 10px;"> <!-- Updated nav bar to Marsh Green background and white font -->
+        <ul style="display: flex; list-style: none; padding: 0; margin: 0;">
+            <li style="margin-right: 20px;"><a href="index.html" style="color: white; text-decoration: none;">Home</a></li>
+            <li><a href="contact.html" style="color: white; text-decoration: none;">Feedback or Contact</a></li>
         </ul>
     </nav>
 
+
     <!-- Contact Form -->
     <main>
-        <h1>Contact Us</h1>
+        <img src="WaterSnapMap_Logo_ChatGPT.png" alt="Logo" style="width: 50px; height: auto; float: left; margin-right: 10px;"> <!-- Added logo to the left of h3 -->
+        <h3>Share Feedback or Contact Us</h3>
         <form action="/submit-contact" method="POST"> <!-- Form submission to the backend -->
+
+            <br>
 
             <p>Please share below. We value your input and will consider your comments in our next development phases.</p>
 
@@ -34,10 +38,13 @@
             </select>
 
             <br>
+            <br>
 
             <!-- Text area for entering detailed feedback or comments -->
             <label for="details">Details (maximum: 160 characters):</label>
-            <textarea id="details" name="details" maxlength="160" placeholder="Enter details here..." required></textarea>
+            <textarea id="details" name="details" maxlength="160" placeholder="Enter details here..." required style="vertical-align: top; width: 200px; height: 200px;"></textarea>
+            <br>
+            <br>
 
             <!-- Dropdown for selecting if the user wants a response -->
             <label for="response">Would you like a response?</label>
@@ -46,6 +53,7 @@
                 <option value="yes">Yes</option> <!-- Option for requesting a response -->
             </select>
 
+            <br>
             <br>
 
             <!-- Section for selecting the preferred contact method, hidden by default -->
