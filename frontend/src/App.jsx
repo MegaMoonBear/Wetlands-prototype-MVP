@@ -31,6 +31,11 @@ function App() {
   }
   };
 
+    // Function to redirect to contact.html page from home page's "Done..." section's "...1 min." buttons in index.html 
+  const redirectToContact = () => {
+    window.location.href = '/contact.html'; // redirect to contact.html, when either "...1 min." button is clicked
+  }
+
   // Function to send selected file to /api/images endpoint using a POST request, including a description.
     // Handles the file upload process by sending the file and metadata to the backend API at /api/images.  
   const uploadFile = async () => {
@@ -76,13 +81,15 @@ function App() {
 
         
       </div>                                  
-      {/* 2 "Done..." buttons in index.html's "Done..." section */}
+      {/* 2 "Done..." buttons in index.html's section after Upload */}
       <button onClick={redirectToThanks}>Less than or at 1 min.</button>    {/* redirect to Thanks.html */}
       <button onClick={redirectToThanks}>More than 1 min.</button>          {/* redirect to Thanks.html */}
       <button onClick={fetchFact}>Wait for description</button> {/* Display database fact (next line) in index.html */}
                 {/* While waiting... Another user's photo included a cattail, which are common wetland plants. */}
+      {/* 3 "another minute..." buttons in index.html's section after Upload */}
       <button onClick={triggerFileUpload}>Submit Another Photo</button> {/* Trigger file "upload" in index.html */} 
       <button onClick={uploadFile}>Submit Another Photo</button> {/* Upload the file to the /api/images endpoint */} 
+      <button onClick={redirectToContact}>Give feedback</button> {/* redirect to Contact.html */}
     </>
   )                                                   
 // Prior symbols close return JSX structure of "App" component and React Fragment from Lines 37-38 - find "return" section                                
