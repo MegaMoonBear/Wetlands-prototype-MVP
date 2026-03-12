@@ -84,6 +84,7 @@ CREATE TABLE contact_form_submissions (
     contact_details TEXT
 ); 
 
+
 -- Table to manage user roles, cohorts, and consent versions
 CREATE TABLE Roles_Governance (
     id user_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
