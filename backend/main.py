@@ -14,6 +14,8 @@ import os
 import uuid
 import json
 from pathlib import Path  # Modern file handling
+import routes 
+from services.exif_metadata import extract_exif_metadata  # Updated import for database utilities
 
 # FastAPI app initialization
 app = FastAPI(title="Water Snap & Map API")
@@ -27,12 +29,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(routes.router)  # Include routes from the routes module
+
 # ---------------------------------------------------------
 # Database connection (Neon/PostgreSQL)
 # ---------------------------------------------------------
-DATABASE_URL = "postgresql+asyncpg://USER:PASSWORD@HOST:PORT/DATABASE"
+DATABASE_URL ="postgresql+asyncpg://postgres:MurgZer0709*@localhost:5432/postgres"
 engine = create_async_engine(DATABASE_URL, echo=False)
-AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession,  expire_on_commit=False)
 
 # ---------------------------------------------------------
 # Pydantic models for validation
@@ -71,16 +75,22 @@ def increment_user_uses(user_id: str) -> int:
     user_usage[user_id] += 1  # Simplified with defaultdict
     return user_usage[user_id]
 
-# **SUGGESTION - PRIOR LINES: Provide image processing guidance as separate lines .**
+# ---------------------------------------------------------
+# Prompt construction for image processing
+# ---------------------------------------------------------
+# **SUGGESTION - NEXT LINES: Provide image processing guidance as separate lines .**
 # **WHY: Improve readability and clarity, especially without Word Wrap and for long prompts.**
 def build_prompt(uses: int) -> str:
     guidance = "User is new. Keep suggestions more general if uncertain." if uses <= 2 else "User is returning. Be more specific when possible."
     return f"""
-You are a nature guide that knows about water, wetlands, animals, and plants. 
+You are a nature guide that knows about water, wetlands, animals, plants, and other living organisms. 
+Animals include all lliving, except plants - insects, amphibians, fish, etc. 
+Plants include all living except animals - trees, shrubs, grasses, flowers, etc. 
+Other living organisms include fungi, algae, bacteria, etc.
 
 Find ONE organism in the image.
 
-1) Find ONE organism in the image. Provide 1-3 suggestions.
+1) Find ONE organism in the image. 
    - If uncertain, include 'unknown species' as the LAST option.
    - {guidance}
 
@@ -88,12 +98,13 @@ Find ONE organism in the image.
    - 10-second read for a 5th grader.
    - Focus on wetlands ecology.
 
+   
 Return ONLY valid JSON:
 {{
-  "suggestions": ["...", "...", "..."],
   "fact": "..."
 }}
 """
+#   "suggestions": ["...", "...", "..."],
 # **SUGGESTION - PRIOR LINES: Provide image processing guidance as separate lines .**
 # **WHY: Improve readability and clarity, especially without Word Wrap and for long prompts.**
 

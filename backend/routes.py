@@ -14,19 +14,21 @@
     # returns the metadata as a JSON response. 
 
 # FastAPI app setup
-from fastapi import FastAPI, UploadFile, File, HTTPException, Request
+from fastapi import FastAPI, UploadFile, File, HTTPException, Request, APIRouter
 from fastapi.responses import JSONResponse
-from app import extract_exif_metadata  # Import the EXIF extraction function
+# from app import extract_exif_metadata  # Import the EXIF extraction function
 from db_utils import insert_exif_metadata  # Import the database insertion function
 import os
 
-app = FastAPI()
+router = APIRouter(prefix="/upload", tags=["upload"])  # Create a router for upload-related endpoints
 
+        
 # Define maximum file size (e.g., 5 MB)
 MAX_FILE_SIZE = 5 * 1024 * 1024
 
-@app.post("/upload-image")
-async def upload_image(file: UploadFile = File(...), request: Request):
+
+@router.post("/upload-image")
+async def upload_image(request: Request,  file: UploadFile = File(...)):
     """
     Endpoint to handle image uploads, extract EXIF metadata, and store it in the database.
 
@@ -87,6 +89,6 @@ async def upload_image(file: UploadFile = File(...), request: Request):
         if os.path.exists(file_location):
             os.remove(file_location)
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)  # Run the FastAPI app on localhost
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app, host="0.0.0.0", port=8000)  # Run the FastAPI app on localhost

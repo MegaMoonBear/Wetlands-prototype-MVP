@@ -20,3 +20,5 @@ ENV/
 *.swp
 *.swo
 
+# dotenv files for environment variables - often contain sensitive info like database credentials
+database_url.env
