@@ -19,9 +19,33 @@ from fastapi.responses import JSONResponse
 # from app import extract_exif_metadata  # Import the EXIF extraction function
 from db_utils import insert_exif_metadata  # Import the database insertion function
 import os
+from app import extract_exif_metadata
+from db_utils import insert_exif_metadata
 
 router = APIRouter(prefix="/upload", tags=["upload"])  # Create a router for upload-related endpoints
 
+# extract_exif_metadata   # Placeholder function for EXIF extraction  
+def process_image_route(image_path):
+    """
+    Placeholder function for a route that processes an image.
+    """
+    print(f"Processing image at path: {image_path}")
+
+    # 1. Extract EXIF metadata
+    metadata = extract_exif_metadata(image_path)
+    print("Metadata extracted:", metadata)
+
+    # 2. Insert metadata into the database
+    if metadata:
+        insert_exif_metadata(metadata)
+        return "Metadata extracted and recorded."
+    else:
+        return "No EXIF metadata found or an error occurred."
+
+# Example usage (you would replace this with actual route handling in a web app):
+# if __name__ == "__main__":
+#     # Assume 'sample_image.jpg' is in the same directory for this example
+#     process_image_route("sample_image.jpg")
         
 # Define maximum file size (e.g., 5 MB)
 MAX_FILE_SIZE = 5 * 1024 * 1024

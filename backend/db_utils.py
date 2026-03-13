@@ -53,16 +53,11 @@ def insert_exif_metadata(media_id, exif_metadata):
             query,
             (
                 media_id,  # ID of the media file
-                exif_metadata.get("Make"),  # Camera manufacturer
-                exif_metadata.get("Model"),  # Camera model
                 exif_metadata.get("DateTimeOriginal"),  # Original date and time of capture
+                exif_metadata.get("Latitude"),  # Latitude from EXIF GPS data
+                exif_metadata.get("Longitude"),  # Longitude from EXIF GPS data
                 exif_metadata.get("GPSAltitude"),  # Altitude from EXIF GPS data
-                exif_metadata.get("Orientation"),  # Orientation of the image
-                exif_metadata.get("ExposureTime"),  # Exposure time (e.g., "1/200")
-                exif_metadata.get("FNumber"),  # Aperture value (e.g., "f/2.8")
-                exif_metadata.get("ISOSpeedRatings"),  # ISO speed
-                exif_metadata.get("FocalLength"),  # Focal length (e.g., "50mm")
-                exif_metadata.get("Flash"),  # Flash information (e.g., "Fired")
+                exif_metadata.get("Orientation"),  # Orientation of image - cardinal direction (numeric (0-360) or north, southwest, etc.)
                 Json(exif_metadata)  # Store the full metadata as JSON
             )
         )

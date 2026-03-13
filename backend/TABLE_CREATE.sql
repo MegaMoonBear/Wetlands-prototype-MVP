@@ -46,18 +46,12 @@ CREATE TABLE media (
 -- Table to store EXIF metadata extracted from media files
 CREATE TABLE pic_metadata_exif (
     id SERIAL PRIMARY KEY,
-    media_id UUID REFERENCES media(id) ON DELETE CASCADE, -- References media table; soft deletes may be handled via observations.deleted_at
-    camera_make TEXT, -- Camera manufacturer
-    camera_model TEXT, -- Camera model
+    media_id UUID REFERENCES media(id) ON DELETE CASCADE, -- References media table with cascade delete
     datetime_original TIMESTAMP, -- Original date and time of capture
-    -- Latitude and longitude are derived from EXIF GPS data but should align with the location table
+    latitude DOUBLE PRECISION, -- Latitude from EXIF GPS data
+    longitude DOUBLE PRECISION, -- Longitude from EXIF GPS data
     altitude DOUBLE PRECISION, -- Altitude from EXIF GPS data
-    orientation TEXT, -- Orientation of the image
-    exposure_time TEXT, -- Exposure time (e.g., "1/200")
-    f_number TEXT, -- Aperture value (e.g., "f/2.8")
-    iso INTEGER, -- ISO speed
-    focal_length TEXT, -- Focal length (e.g., "50mm")
-    flash TEXT, -- Flash information (e.g., "Fired")
+    orientation TEXT, -- Orientation of the image  - cardinal direction (numeric (0-360) or north, southwest, etc.   )
     additional_metadata JSONB -- Store any additional EXIF data as JSON
 );
 

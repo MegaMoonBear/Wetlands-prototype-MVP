@@ -16,6 +16,8 @@ import json
 from pathlib import Path  # Modern file handling
 import routes 
 from services.exif_metadata import extract_exif_metadata  # Updated import for database utilities
+from PIL import Image
+from PIL.ExifTags import TAGS
 
 # FastAPI app initialization
 app = FastAPI(title="Water Snap & Map API")
@@ -88,9 +90,8 @@ Animals include all lliving, except plants - insects, amphibians, fish, etc.
 Plants include all living except animals - trees, shrubs, grasses, flowers, etc. 
 Other living organisms include fungi, algae, bacteria, etc.
 
-Find ONE organism in the image.
-
-1) Find ONE organism in the image. 
+1) Find ONE living or dead organism in the image. 
+   - If none present, go to second step and provide fact. 
    - If uncertain, include 'unknown species' as the LAST option.
    - {guidance}
 
@@ -117,6 +118,31 @@ def parse_model_response(response):
     except Exception:
         return ["unknown species"] * 3, str(response)  # Fallback for invalid responses
 
+
+
+# ---------------------------------------------------------
+# Image processing and EXIF metadata extraction
+# ---------------------------------------------------------
+def extract_exif_metadata(image_path):
+    """
+    Extracts EXIF data from an image using Pillow and returns a dictionary.
+    """
+    exif_data = {}
+    try:
+        image = Image.open(image_path)
+        # Verify image is a valid EXIF image
+        image.verify() 
+        info = image.getexif()
+        if info:
+            for tag, value in info.items():
+                decoded_tag = TAGS.get(tag, tag)
+                exif_data[decoded_tag] = value
+    except (IOError, FileNotFoundError, AttributeError):
+        print(f"Error processing image: {image_path}")
+        pass
+    return exif_data
+
+
 # ---------------------------------------------------------
 # Routes
 # ---------------------------------------------------------
@@ -128,8 +154,8 @@ def health():
 def get_user(user_id: str):
     return UserStats(user_id=user_id, uses=user_usage[user_id])
 
-# **SUGGESTION: Consolidate image handling logic into a utility function.**
-# **WHY: Avoid redundancy in /api/identify and other routes that process images.**
+# AI SUGGESTION: Consolidate image handling logic into a utility function.
+# AI REASONING: Avoid redundancy in /api/identify and other routes that process images.
 @app.post("/api/identify", response_model=IdentifyResponse)
 async def identify(user_id: str, image: UploadFile = File(...)):
     if not image.content_type or not image.content_type.startswith("image/"):
