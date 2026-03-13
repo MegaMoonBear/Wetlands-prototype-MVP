@@ -11,11 +11,11 @@ def get_db_connection():
     """
     try:
         connection = psycopg2.connect(
-            dbname="your_database_name",  # Replace with your database name
-            user="your_username",  # Replace with your database username
-            password="your_password",  # Replace with your database password
-            host="localhost",  # Replace with your database host
-            port="5432"  # Replace with your database port
+        database="postgres", 
+        user="postgres",
+        password="MurgZer0709*",
+        host="localhost",
+        port="5432"
         )
         return connection
     except Exception as e:
@@ -23,7 +23,12 @@ def get_db_connection():
         print(f"Error connecting to the database: {e}")
         raise
 
-# Function to insert EXIF metadata into the database
+# Save time for user by extracting key, structured EXIF metadata and insert in  database
+# Function to insert EXIF metadata into database - ExifTool, Python (Piexif/PIL), or online viewers to find
+        # orientation (1-8 rotation values) AND 
+        # compass heading (decimal degrees)  - Key tags include: 
+            # GPSImgDirection for bearing AND
+            # GPSImgDirectionRef for True/Magnetic North
 def insert_exif_metadata(media_id, exif_metadata):
     """
     Insert EXIF metadata into the pic_metadata_exif table.
@@ -37,18 +42,21 @@ def insert_exif_metadata(media_id, exif_metadata):
     """
     query = """
         INSERT INTO pic_metadata_exif (
-            media_id, camera_make, camera_model, datetime_original, altitude,
-            orientation, exposure_time, f_number, iso, focal_length, flash, additional_metadata
+            media_id, datetime_original, altitude, latitude, longitude, 
+            compass_direction, orientation, JSON_metadata
         ) VALUES (
-            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+            %s, %s, %s, %s, %s, %s, %s, %s
         )
     """
 
+    connection = None  # Initialize connection to None
     try:
         connection = get_db_connection()  # Get a database connection
         cursor = connection.cursor()  # Create a cursor to execute the query
 
         # Execute the query with the provided EXIF metadata
+            # compass heading (decimal degrees) 
+            # orientation (1-8 rotation values)
         cursor.execute(
             query,
             (
@@ -57,7 +65,8 @@ def insert_exif_metadata(media_id, exif_metadata):
                 exif_metadata.get("Latitude"),  # Latitude from EXIF GPS data
                 exif_metadata.get("Longitude"),  # Longitude from EXIF GPS data
                 exif_metadata.get("GPSAltitude"),  # Altitude from EXIF GPS data
-                exif_metadata.get("Orientation"),  # Orientation of image - cardinal direction (numeric (0-360) or north, southwest, etc.)
+                exif_metadata.get("GPSImgDirection"),  # Compass heading (decimal degrees)
+                exif_metadata.get("Orientation"),  # Camera rotation relative to ground (1-8 rotation values)
                 Json(exif_metadata)  # Store the full metadata as JSON
             )
         )

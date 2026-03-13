@@ -51,7 +51,8 @@ CREATE TABLE pic_metadata_exif (
     latitude DOUBLE PRECISION, -- Latitude from EXIF GPS data
     longitude DOUBLE PRECISION, -- Longitude from EXIF GPS data
     altitude DOUBLE PRECISION, -- Altitude from EXIF GPS data
-    orientation TEXT, -- Orientation of the image  - cardinal direction (numeric (0-360) or north, southwest, etc.   )
+    compass_direction DOUBLE PRECISION, -- Compass heading (decimal degrees)
+    orientation TEXT, -- # Camera rotation relative to ground (1-8 rotation values)
     additional_metadata JSONB -- Store any additional EXIF data as JSON
 );
 
@@ -209,6 +210,8 @@ CREATE TABLE water_observation (
     classification_source ENUM (
         'ai_image',
         'user_reported',
+        'expert_review',
+        'gis_overlay',
         'field_verified'
     ) NOT NULL,
     observed_at TIMESTAMP NOT NULL

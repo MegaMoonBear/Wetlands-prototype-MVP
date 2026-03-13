@@ -1,12 +1,12 @@
 # Water MVP - Main Application File
-# Backend Logic - Handles core functionality & data processing for Waters MVP
+    # Backend Logic - Handles core functionality & data processing (inclu. image) for water MVP
 
 from fastapi import FastAPI, HTTPException, File, UploadFile, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import async_sessionmaker
 from collections import defaultdict  # Simplifies user usage tracking
 import ollama
 import uvicorn
@@ -15,7 +15,6 @@ import uuid
 import json
 from pathlib import Path  # Modern file handling
 import routes 
-from services.exif_metadata import extract_exif_metadata  # Updated import for database utilities
 from PIL import Image
 from PIL.ExifTags import TAGS
 
@@ -38,7 +37,11 @@ app.include_router(routes.router)  # Include routes from the routes module
 # ---------------------------------------------------------
 DATABASE_URL ="postgresql+asyncpg://postgres:MurgZer0709*@localhost:5432/postgres"
 engine = create_async_engine(DATABASE_URL, echo=False)
-AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession,  expire_on_commit=False)
+# creating a session factory using SQLAlchemy's sessionmaker
+    # sessionmaker is a function used to configure and generate new database session objects
+AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+# ASL later used in get_session dependency to provide database sessions for FastAPI routes.
+# Without this line, no sessions, so any route that interacts with the database would fail.
 
 # ---------------------------------------------------------
 # Pydantic models for validation
@@ -126,6 +129,8 @@ def parse_model_response(response):
 def extract_exif_metadata(image_path):
     """
     Extracts EXIF data from an image using Pillow and returns a dictionary.
+        Code extract_exif_metadata to provide data for insert_exif_metadata in db_utils.py
+        Verify workflow - Confirm that extract_exif_metadata outputs data structure to fit insert_exif_metadata
     """
     exif_data = {}
     try:
@@ -156,10 +161,15 @@ def get_user(user_id: str):
 
 # AI SUGGESTION: Consolidate image handling logic into a utility function.
 # AI REASONING: Avoid redundancy in /api/identify and other routes that process images.
+# This function needs to be adjusted for image processing by the AI model - not "str"
 @app.post("/api/identify", response_model=IdentifyResponse)
 async def identify(user_id: str, image: UploadFile = File(...)):
     if not image.content_type or not image.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File must be an image.")
+
+    # Ensure image.filename is not None before using it
+    if not image.filename:
+        raise HTTPException(status_code=400, detail="Uploaded file must have a filename and that name must be valid.")
 
     file_path = UPLOAD_DIR / f"{uuid.uuid4().hex}{Path(image.filename).suffix}"
     with file_path.open("wb") as f:

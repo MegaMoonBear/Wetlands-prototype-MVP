@@ -1,25 +1,22 @@
-# routes.py
 # This file defines API endpoints for the backend service.
-# Tasks:
-# - Currently unused as the prototype does not include a frontend or API routes.
-# - Future use: Define routes for interacting with sandbox modules.
-
-# Example: Define routes for image uploads, data retrieval, and other functionalities. 
-# Use a framework like Flask or FastAPI to create and manage routes.
+    # Example: Define routes for image uploads, data retrieval, and other functionalities. 
+    # Use a framework like Flask or FastAPI to create and manage routes.
 
 
 # integrate EXIF extraction into the /upload-image endpoint, which: 
-    # saves the uploaded image temporarily, 
+    # saves the uploaded image temporarily (see "tmp_uploads" folder),
     # extracts EXIF metadata using the extract_exif_metadata function, and 
     # returns the metadata as a JSON response. 
 
 # FastAPI app setup
+import uuid
+
 from fastapi import FastAPI, UploadFile, File, HTTPException, Request, APIRouter
 from fastapi.responses import JSONResponse
 # from app import extract_exif_metadata  # Import the EXIF extraction function
 from db_utils import insert_exif_metadata  # Import the database insertion function
 import os
-from app import extract_exif_metadata
+from main import extract_exif_metadata  # Import the EXIF extraction function from main.py
 from db_utils import insert_exif_metadata
 
 router = APIRouter(prefix="/upload", tags=["upload"])  # Create a router for upload-related endpoints
@@ -35,10 +32,13 @@ def process_image_route(image_path):
     metadata = extract_exif_metadata(image_path)
     print("Metadata extracted:", metadata)
 
-    # 2. Insert metadata into the database
+    # 2. In this process_image_route function, define as unique identifier for media file
+    media_id = str(uuid.uuid4())
+
+    # 3. Insert metadata into the database
     if metadata:
-        insert_exif_metadata(metadata)
-        return "Metadata extracted and recorded."
+        insert_exif_metadata(media_id, metadata)
+        return "Metadata for image (media) file extracted and recorded."
     else:
         return "No EXIF metadata found or an error occurred."
 
@@ -62,9 +62,12 @@ async def upload_image(request: Request,  file: UploadFile = File(...)):
     Returns:
         JSONResponse: A response containing the extracted EXIF metadata.
     """
+    # Initialize file_location to an empty string outside the try block to ensure it is always defined
+    file_location = ""
+
     try:
         # Validate file format
-        if not file.filename.lower().endswith((".jpg", ".jpeg", ".png")):
+        if not file.filename or not file.filename.lower().endswith((".jpg", ".jpeg", ".png")):
             raise HTTPException(status_code=400, detail="Unsupported file format. Please upload a JPG, JPEG, or PNG file.")
 
         # Check file size
@@ -73,8 +76,8 @@ async def upload_image(request: Request,  file: UploadFile = File(...)):
             raise HTTPException(status_code=413, detail="File size exceeds the 5 MB limit.")
 
         # Save the uploaded file temporarily
-        file_location = f"/tmp/{file.filename}"
         try:
+            file_location = f"/tmp/{file.filename}"
             with open(file_location, "wb") as buffer:
                 buffer.write(await file.read())  # Write the uploaded file to a temporary location
         except Exception as file_error:
@@ -109,8 +112,8 @@ async def upload_image(request: Request,  file: UploadFile = File(...)):
         return JSONResponse(content={"error": f"An unexpected error occurred: {e}"}, status_code=500)
 
     finally:
-        # Clean up temporary files
-        if os.path.exists(file_location):
+        # Clean up temporary files if file_location is not empty and the file exists
+        if file_location and os.path.exists(file_location):
             os.remove(file_location)
 
 # if __name__ == "__main__":
