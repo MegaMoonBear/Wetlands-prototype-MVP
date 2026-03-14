@@ -15,9 +15,9 @@ from fastapi.responses import JSONResponse
 from services.exif_metadata import extract_exif_metadata  # Updated import to resolve circular dependency
 from db_utils import insert_exif_metadata  # Import the database insertion function
 import os
-from db_utils import insert_exif_metadata
 from ai_prompts import LLAMA_VISION_PROMPT  # Import the AI prompt from the dedicated module
 import shutil  # For moving files
+import tempfile  # For creating temporary files
 
 router = APIRouter(prefix="/upload", tags=["upload"])  # Create a router for upload-related endpoints
 
@@ -68,56 +68,52 @@ async def upload_image(request: Request, file: UploadFile = File(...)):
     file_location = ""  # Initialize file_location to ensure it is always defined
     permanent_storage_path = ""  # Path for storing the file permanently
 
+     # Validate file format - only allow common image formats (e.g., JPG, PNG) 
+     # to ensure compatibility with AI model and prevent processing errors.
     try:
-        # Validate file format
         if not file.filename or not file.filename.lower().endswith((".jpg", ".jpeg", ".png")):
             raise HTTPException(status_code=400, detail="Unsupported file format. Please upload a JPG, JPEG, or PNG file.")
+    except HTTPException as format_error:
+        return JSONResponse(content={"error": format_error.detail}, status_code=format_error.status_code)
 
-        # Check file size
+    try:
         file_size = int(request.headers.get("content-length", 0))  # Get file size from request headers
         if file_size > MAX_FILE_SIZE:
             raise HTTPException(status_code=413, detail="File size exceeds the 5 MB limit.")
+    except HTTPException as size_error:
+        return JSONResponse(content={"error": size_error.detail}, status_code=size_error.status_code)
 
-        # Save the uploaded file temporarily 
-            # AI should analyze the temporary file in the /tmp directory before it is moved to the uploads/ directory. This ensures that:
-            # file is validated and analyzed before being permanently stored
-            # If an error occurs during AI analysis, file is not unnecessarily saved in permanent storage
-        try:
-            file_location = f"/tmp/{file.filename}"  # Define temporary file path
-            with open(file_location, "wb") as buffer:
-                buffer.write(await file.read())  # Write the uploaded file to the temporary location
-        except Exception as file_error:
-            raise HTTPException(status_code=500, detail=f"Error saving the file: {file_error}")
+    try:
+        temp_dir = tempfile.gettempdir()  # Get the system's temporary directory
+        file_location = f"{temp_dir}/{file.filename}"  # Define temporary file path
+        with open(file_location, "wb") as buffer:
+            buffer.write(await file.read())  # Write the uploaded file to the temporary location
+    except Exception as file_error:
+        raise HTTPException(status_code=500, detail=f"Error saving the file: {file_error}")
+    finally:
+        if file_location and os.path.exists(file_location):
+            os.remove(file_location)  # Ensure temporary file is deleted
 
-        # Perform AI analysis on temporary file
-               # If AI analysis succeeds, file is moved to uploads/ directory for permanent storage.
-        try:
-            # Placeholder for AI model integration
-            ai_response = {
-                "prompt": LLAMA_VISION_PROMPT,  # Use the imported AI prompt
-                "analysis": f"AI analysis for the image at {file_location}"  # Placeholder AI analysis
-            }
-        except Exception as ai_error:
-            raise HTTPException(status_code=500, detail=f"AI processing error: {ai_error}")
+    try:
+        # Placeholder for AI model integration
+        ai_response = {
+            "prompt": LLAMA_VISION_PROMPT,  # Use the imported AI prompt
+            "analysis": f"AI analysis for the image at {file_location}"  # Placeholder AI analysis
+        }
+    except Exception as ai_error:
+        raise HTTPException(status_code=500, detail=f"AI processing error: {ai_error}")
 
-        # Move the file to the permanent uploads/ directory
-            # Ensures that the file is stored in a more permanent location after processing, and 
-            # path can be saved in database for future reference.
-        try:
-            permanent_storage_path = f"uploads/{file.filename}"
-            shutil.move(file_location, permanent_storage_path)  # Move the file to the uploads/ directory
-        except Exception as move_error:
-            raise HTTPException(status_code=500, detail=f"Error moving the file to permanent storage: {move_error}")
+    try:
+        permanent_storage_path = f"uploads/{file.filename}"
+        shutil.move(file_location, permanent_storage_path)  # Move the file to the uploads/ directory
+    except Exception as move_error:
+        raise HTTPException(status_code=500, detail=f"Error moving the file to permanent storage: {move_error}")
 
-        # Save the file path in the database (placeholder for actual DB logic)
-        try:
-            # Example: Insert into media table (replace with actual DB logic)
-            # insert_media_to_db(media_id, observation_id, permanent_storage_path)
-            pass
-        except Exception as db_error:
-            raise HTTPException(status_code=500, detail=f"Database error: {db_error}")
+    try:
+        # Example: Insert into media table (replace with actual DB logic)
+        # insert_media_to_db(media_id, observation_id, permanent_storage_path)
+        pass
 
-        # Return the AI-generated response
         return JSONResponse(content={"message": "AI analysis completed successfully", "ai_response": ai_response})
 
     except HTTPException as http_exc:
@@ -131,7 +127,3 @@ async def upload_image(request: Request, file: UploadFile = File(...)):
     finally:
         if file_location and os.path.exists(file_location):  # Ensure temporary file is deleted
             os.remove(file_location)
-
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run(app, host="0.0.0.0", port=8000)  # Run the FastAPI app on localhost
