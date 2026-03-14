@@ -1,3 +1,10 @@
+#  My PostgreSQL database and psycopg2 serve as: 
+    # data storage and 
+    # retrieval layer for:
+        # applications that might use AI models (like Ollama for image processing) 
+        # database manages data, such as photo's: 
+            # metadata that EXIF syntax extracts AND 
+            # visual characteristics (pixels, colors, etc. and/or base64 encoding) that AI analyses (water features, species, etc.)
 import psycopg2
 from psycopg2.extras import Json
 

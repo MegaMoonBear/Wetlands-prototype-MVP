@@ -11,14 +11,21 @@ from collections import defaultdict  # Simplifies user usage tracking
 import ollama
 import uvicorn
 import os
+from dotenv import load_dotenv
+from pathlib import Path  # Modern file handling
 import uuid
 import json
-from pathlib import Path  # Modern file handling
 import routes 
 from PIL import Image
 from PIL.ExifTags import TAGS
 
+# ---------------------------------------------------------
 # FastAPI app initialization
+    # variable 'app' represents your fast api app - should be in this main.py file and 
+    # next 3 "app" are good use of FastAPI's features, such as: 
+        # dependency injection for DB sessions and 
+        # CORS middleware for frontend integration
+# ---------------------------------------------------------
 app = FastAPI(title="Water Snap & Map API")
 
 # CORS middleware setup
@@ -30,12 +37,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(routes.router)  # Include routes from the routes module
+app.include_router(routes.router)  # Include routes from the routes.py file (modularizes route definitions)
+
+# ---------------------------------------------------------
+# Environment Variables for API and Database Configuration
+# ---------------------------------------------------------
+load_dotenv()  # Load environment variables from .env file
+# api_key = os.getenv("OLLAMA_API_KEY")  # Not needed for local Ollama ((Load Ollama API key from environment variable
+DB_PORT = os.getenv("DB_PORT")  # Load database port from environment variable
+DB_PASSWORD = os.getenv("DB_PASSWORD")  # Load database password from env. vari.
 
 # ---------------------------------------------------------
 # Database connection (Neon/PostgreSQL)
 # ---------------------------------------------------------
-DATABASE_URL ="postgresql+asyncpg://postgres:MurgZer0709*@localhost:5432/postgres"
+DATABASE_URL ="postgresql+asyncpg://postgres:@localhost:5432/postgres"
 engine = create_async_engine(DATABASE_URL, echo=False)
 # creating a session factory using SQLAlchemy's sessionmaker
     # sessionmaker is a function used to configure and generate new database session objects

@@ -40,7 +40,8 @@ CREATE TABLE media (
     observation_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
     media_type ENUM('image', 'video', 'audio') NOT NULL, -- 
     metadata_extracted boolean DEFAULT FALSE, -- Y/N - flag for metadata extraction
-    storage_url TEXT -- URL/path to media stored... in CLOUD or CACHE? 
+    storage_url TEXT, -- URL/path to media stored... in CLOUD or CACHE? 
+    storage_path TEXT -- Path to the file stored in the uploads/ directory
 );
 
 -- Table to store EXIF metadata extracted from media files
