@@ -1,6 +1,32 @@
 from PIL import Image
 from PIL.ExifTags import TAGS
 
+# ---------------------------------------------------------
+# Image processing and EXIF metadata extraction 
+     # ****MOVED from main.py to avoid circular reference****
+# ---------------------------------------------------------
+def extract_exif_metadata(image_path):
+    """
+    Extracts EXIF data from an image using Pillow and returns a dictionary.
+        Code extract_exif_metadata to provide data for insert_exif_metadata in db_utils.py
+        Verify workflow - Confirm that extract_exif_metadata outputs data structure to fit insert_exif_metadata
+    """
+    exif_data = {}
+    try:
+        image = Image.open(image_path)
+        # Verify image is a valid EXIF image
+        image.verify() 
+        info = image.getexif()
+        if info:
+            for tag, value in info.items():
+                decoded_tag = TAGS.get(tag, tag)
+                exif_data[decoded_tag] = value
+    except (IOError, FileNotFoundError, AttributeError):
+        print(f"Error processing image: {image_path}")
+        pass
+    return exif_data
+
+
 # """
 #     Placeholder function to extract EXIF metadata from an image file.
 #     Replace with actual implementation using a library like Pillow or ExifRead.

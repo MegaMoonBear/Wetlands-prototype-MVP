@@ -18,6 +18,7 @@ import json
 import routes 
 from PIL import Image
 from PIL.ExifTags import TAGS
+from services.exif_metadata import extract_exif_metadata  # Importing the EXIF metadata extraction function from the services module
 
 # ---------------------------------------------------------
 # FastAPI app initialization
@@ -137,30 +138,10 @@ def parse_model_response(response):
         return ["unknown species"] * 3, str(response)  # Fallback for invalid responses
 
 
-
 # ---------------------------------------------------------
-# Image processing and EXIF metadata extraction
+# ***MOVED*** Image processing and EXIF metadata extraction 
+# ****MOVED to services/exif_service.py for better modularity****
 # ---------------------------------------------------------
-def extract_exif_metadata(image_path):
-    """
-    Extracts EXIF data from an image using Pillow and returns a dictionary.
-        Code extract_exif_metadata to provide data for insert_exif_metadata in db_utils.py
-        Verify workflow - Confirm that extract_exif_metadata outputs data structure to fit insert_exif_metadata
-    """
-    exif_data = {}
-    try:
-        image = Image.open(image_path)
-        # Verify image is a valid EXIF image
-        image.verify() 
-        info = image.getexif()
-        if info:
-            for tag, value in info.items():
-                decoded_tag = TAGS.get(tag, tag)
-                exif_data[decoded_tag] = value
-    except (IOError, FileNotFoundError, AttributeError):
-        print(f"Error processing image: {image_path}")
-        pass
-    return exif_data
 
 
 # ---------------------------------------------------------

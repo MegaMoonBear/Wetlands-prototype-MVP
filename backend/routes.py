@@ -12,10 +12,9 @@ import uuid
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, Request, APIRouter
 from fastapi.responses import JSONResponse
-# from app import extract_exif_metadata  # Import the EXIF extraction function
+from services.exif_metadata import extract_exif_metadata  # Updated import to resolve circular dependency
 from db_utils import insert_exif_metadata  # Import the database insertion function
 import os
-from main import extract_exif_metadata  # Import the EXIF extraction function from main.py
 from db_utils import insert_exif_metadata
 from ai_prompts import LLAMA_VISION_PROMPT  # Import the AI prompt from the dedicated module
 import shutil  # For moving files
