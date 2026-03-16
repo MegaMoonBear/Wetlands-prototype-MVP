@@ -15,7 +15,7 @@ from image_util import convert_image_to_base64
 logger = logging.getLogger(__name__)
 
 
-def analyze_wetland_image(image_path: str) -> Dict:
+def analyze_wetland_image(image_path: str):
     """Convert an image to base64 (when available) and call the Ollama Vision model.
 
         - If the image is missing or unreadable we log and call the model without
@@ -35,7 +35,7 @@ def analyze_wetland_image(image_path: str) -> Dict:
 
     message = {"role": "user", "content": prompt}
     if base64_image:
-        message["images"] = [base64_image]
+        message["images"] = base64_image
 
         # Uncomment the following lines after database creation to save the base64 string
         # with open("encoded_image.txt", "w") as f:
@@ -43,4 +43,5 @@ def analyze_wetland_image(image_path: str) -> Dict:
 
     # Call the Ollama API; propagate exceptions to let callers/tests handle them
     response = ollama.chat(model="llama3.2-vision", messages=[message])
+
     return response

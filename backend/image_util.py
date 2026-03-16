@@ -24,3 +24,13 @@ def convert_image_to_base64(image_path: str) -> str:
     # Read binary image data and return a base64-encoded UTF-8 string
     with path.open("rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
+    
+#     import base64
+
+# def upload_file(base64_string, filename):
+#     # Decode the string
+#     file_data = base64.b64decode(base64_string)
+    
+#     # Save the file
+#     with open(f"uploaded_{filename}", "wb") as f:
+#         f.write(file_data)
