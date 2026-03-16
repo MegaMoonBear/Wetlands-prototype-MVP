@@ -14,10 +14,11 @@ from fastapi import FastAPI, UploadFile, File, HTTPException, Request, APIRouter
 from fastapi.responses import JSONResponse
 from services.exif_metadata import extract_exif_metadata  # Updated import to resolve circular dependency
 from db_utils import insert_exif_metadata  # Import the database insertion function
+from ollama_vision import analyze_wetland_image # Import function to analyze images with ollama
 import os
-from ai_prompts import LLAMA_VISION_PROMPT  # Import the AI prompt from the dedicated module
 import shutil  # For moving files
 import tempfile  # For creating temporary files
+
 
 router = APIRouter(prefix="/upload", tags=["upload"])  # Create a router for upload-related endpoints
 
@@ -96,10 +97,15 @@ async def upload_image(request: Request, file: UploadFile = File(...)):
 
     try:
         # Placeholder for AI model integration
-        ai_response = {
-            "prompt": LLAMA_VISION_PROMPT,  # Use the imported AI prompt
-            "analysis": f"AI analysis for the image at {file_location}"  # Placeholder AI analysis
-        }
+        analysis = analyze_wetland_image(file_location)
+        print(analysis)
+
+
+
+        # Use analyze_wetland_image from ollama_vision.py file here
+
+
+
     except Exception as ai_error:
         raise HTTPException(status_code=500, detail=f"AI processing error: {ai_error}")
 

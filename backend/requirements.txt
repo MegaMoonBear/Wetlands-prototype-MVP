@@ -12,6 +12,7 @@ sqlalchemy  # SQLAlchemy is an ORM for working with databases in Python
 ollama  # Ollama is a library for working with large language models
 psycopg2
 asyncpg
+
 # Phase 1 MVP = one narrow pipeline: Local image → Backend → AI API → Structured suggestions → Output
 # So we don't need heavy ML libraries or databases at this stage
 
