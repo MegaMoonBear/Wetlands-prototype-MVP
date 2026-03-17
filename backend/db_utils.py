@@ -19,8 +19,8 @@ def get_db_connection():
     try:
         connection = psycopg2.connect(
         database="postgres", 
-        user="postgres",
-        password="MurgZer0709*",
+        user="dev",
+        password="dev",
         host="localhost",
         port="5432"
         )
@@ -50,9 +50,9 @@ def insert_exif_metadata(media_id, exif_metadata):
     query = """
         INSERT INTO pic_metadata_exif (
             media_id, datetime_original, altitude, latitude, longitude, 
-            compass_direction, orientation, JSON_metadata
+            compass_direction, orientation
         ) VALUES (
-            %s, %s, %s, %s, %s, %s, %s, %s
+            %s, %s, %s, %s, %s, %s, %s
         )
     """
 
@@ -74,7 +74,7 @@ def insert_exif_metadata(media_id, exif_metadata):
                 exif_metadata.get("GPSAltitude"),  # Altitude from EXIF GPS data
                 exif_metadata.get("GPSImgDirection"),  # Compass heading (decimal degrees)
                 exif_metadata.get("Orientation"),  # Camera rotation relative to ground (1-8 rotation values)
-                Json(exif_metadata)  # Store the full metadata as JSON
+                # Json(exif_metadata)  # Store the full metadata as JSON
             )
         )
 

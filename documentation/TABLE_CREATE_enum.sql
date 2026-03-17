@@ -7,35 +7,38 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; -- Enable UUID generation extension
 
 -- Create the observations table with soft delete functionality
 CREATE TABLE observations (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    observation_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     submitted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     observed_at TIMESTAMP WITH TIME ZONE, -- Date-time of observation
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(), -- Auto-updated on modification
-    data_source TEXT, -- Source of observation/photo
+    data_source ENUM('user_upload', 'sensor', 'third_party') NOT NULL, -- Source of observation/photo
     user_UUID TEXT,
     tags_user_device TEXT[], -- Tags from user/device 
-    tags_AI_ConfidL FLOAT, -- Confidence level for primary/first AI-suggested tag (not TEXT from AI)
+    tags_AI_ConfidL ENUM, -- Confidence level for primary/first AI-suggested tag
     tag_OptionONLY_P1 TEXT, -- Primary/first AI-suggested tag only
-    validation_status TEXT,     -- V-status for user-selected tag
-    validation_reject TEXT,
+    -- tags_AI_Option1 TEXT, -- Tags from AI option 1
+    -- tags_AI_Option2 TEXT, -- Tags from AI option 2
+    -- tags_AI_Option3 TEXT, -- Tags from AI option 3
+    -- tag_user_Selected1 TEXT, -- Tag selected by user in app - only 1
+    -- tag_user_Selected1_ConfidL ENUM, -- Confidence level for 1 user-selected tag
+    validation_status ENUM('pending', 'validated', 'rejected') DEFAULT 'pending', 
+    -- V-status for user-selected tag
+    validation_reject ENUM('updated', 'awaiting expert review', 'unidentifiable') DEFAULT 'awaiting expert review',
     is_deleted BOOLEAN DEFAULT FALSE -- Soft delete flag to mark rows as deleted
 );
 
 -- Add an index to optimize queries filtering by is_deleted
 CREATE INDEX idx_observations_is_deleted ON observations (is_deleted);  -- Index for faster lookups by observation_UUID
--- REFERENCES observations(id) does create a foreign key ("FK" not needed)
-    -- You should name the constraint explicitly in real projects
-    -- Soft deletes are handled by schema design + queries, not comment or FKs
+-- ✅ REFERENCES observations(id) does create a foreign key ("FK" not needed)
+    -- ✅ You should name the constraint explicitly in real projects
+    -- 🔒 Soft deletes are handled by schema design + queries, not comment or FKs
 CREATE INDEX idx_media_observation_UUID ON media (observation_UUID); -- Index for faster lookups by media_UUID
 
 -- OTHER database's tables 
 -- media table for observation_ID, media_ID, metadata_extracted, and storage_URL; and 
 CREATE TABLE media (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id media_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     observation_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
-    -- observed_at TIMESTAMP WITH TIME ZONE, -- Date-time of observation
-    -- updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(), -- Auto-updated on modification
-    media_type TEXT, -- 
+    media_type ENUM('image', 'video', 'audio') NOT NULL, -- 
     metadata_extracted boolean DEFAULT FALSE, -- Y/N - flag for metadata extraction
     storage_url TEXT, -- URL/path to media stored... in CLOUD or CACHE? 
     storage_path TEXT -- Path to the file stored in the uploads/ directory
@@ -43,10 +46,9 @@ CREATE TABLE media (
 
 -- Table to store EXIF metadata extracted from media files
 CREATE TABLE pic_metadata_exif (
-    id SERIAL PRIMARY KEY, -- Alternative... -- id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id SERIAL PRIMARY KEY,
     media_id UUID REFERENCES media(id) ON DELETE CASCADE, -- References media table with cascade delete
     datetime_original TIMESTAMP, -- Original date and time of capture
-    observed_at TIMESTAMP WITH TIME ZONE, -- Date-time of observation
     latitude DOUBLE PRECISION, -- Latitude from EXIF GPS data
     longitude DOUBLE PRECISION, -- Longitude from EXIF GPS data
     altitude DOUBLE PRECISION, -- Altitude from EXIF GPS data
@@ -56,7 +58,7 @@ CREATE TABLE pic_metadata_exif (
 );
 
 CREATE TABLE indicator_decompObs (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id indicator_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     observation_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
     user_ID UUID REFERENCES Roles_Governance(id), -- FK to track user submitting or validating
     indicator_type ENUM('water', 'plant', 'animal', 'unknown'), -- Type of indicator of water flow or ecosystem health
@@ -67,7 +69,7 @@ CREATE TABLE indicator_decompObs (
 
 -- Table to store contact form submissions
 CREATE TABLE contact_form_submissions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id user_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     contact_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
     issue_type TEXT CHECK (issue_type IN ('problem', 'concern', 'feedback', 'technical', 'other')) NOT NULL, -- Dropdown options from contact.html
     details TEXT CHECK (length(details) <= 160), -- Text box input limited to 160 characters
@@ -81,7 +83,7 @@ CREATE TABLE contact_form_submissions (
 
 -- Table to manage user roles, cohorts, and consent versions
 CREATE TABLE Roles_Governance (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id user_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     observation_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
     user_role ENUM('admin/developer', 'public', 'professional reviewer'), -- Tracks governance roles for users
     cohort ENUM('internal_testers', 'pilot_users', 'public_launch'), -- User cohort for phased roll-out
@@ -97,7 +99,7 @@ CREATE TABLE Roles_Governance (
     -- Keeps the schema understandable for **non-technical users**
 -- Updates will improve analytics with minimal complexity
 CREATE TABLE location (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id location_UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     latitude DOUBLE PRECISION,
     longitude DOUBLE PRECISION,
     observation_UUID UUID REFERENCES observations(id), -- References observations; soft deletes may be handled via observations.deleted_at
@@ -162,7 +164,7 @@ CREATE TABLE location (
     - Future phases will expand to multiple species and more complex indicators
    ========================================================= */
 CREATE TABLE water_observation (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id water_obs_UUID PRIMARY KEY,
     -- Spatial and contextual references
     location_id UUID NOT NULL,
     waterbody_type_id INT NOT NULL,
