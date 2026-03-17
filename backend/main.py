@@ -175,7 +175,7 @@ async def identify(user_id: str, image: UploadFile = File(...)):
 
     try:
         response = ollama.chat(
-            model="llama3.2-vision",
+            model="llama3.2-vision", #Specific Llama model for image analysis 
             messages=[{
                 "role": "user",
                 "content": build_prompt(user_usage[user_id]),

@@ -1,158 +1,119 @@
-# Wetlands-prototype-MVP
+# Wetlands Prototype MVP
 
-Clone the repository. Do not fork.
-  
-Cloning is the right move, since I: 
-   
-   - Started the repo yourself in GitHub
-  
-   - Will be coding locally in VS Code
-  
-   - Intend to push changes back to that same repo
-  
-Cloning:
-  
-   - Creates a local working copy on your machine
-  
-   - Keeps the repo connected to GitHub (origin)
-  
-   - Is the standard workflow for solo or primary-owner projects
+## Index
+1. [Introduction](#introduction)
+2. [Backend Overview](#backend-overview)
+3. [Frontend Overview](#frontend-overview)
+4. [EXIF Metadata Extraction](#exif-metadata-extraction)
+5. [Prompt options- Identifying Wetland Organisms](#PromptOptions---identifying-wetland-organisms)
+6. [Lookup Tables vs ENUM](#lookup-tables-vs-enum)
+7. [React Frontend Setup](#react-frontend-setup)
+8. [How to Start the Frontend](#how-to-start-the-frontend)
+9. [Recommended Photo Sites](#recommended-photo-sites)
+10. [Diagnosing Performance Issues](#diagnosing-performance-issues)
 
-# Minimum VS Code Setup (Day 3)
+---
 
-## Create a project folder
+## Introduction
+This repository contains the Wetlands Prototype MVP, a project designed to analyze wetland images, extract metadata, and provide insights using AI models. The project includes a FastAPI backend, a React frontend, and PostgreSQL for data storage.
 
-  Wetlands-prototype-MVP/
-    ├── main.py
-    ├── requirements.txt
-    ├── images/
-    │     └── sample_pond.jpg
-    └── README.md
+---
 
-## Create and activate a virtual environment
-  Keeps dependencies isolated
-  
-  Reviewers expect this
+## Backend Overview
+### Architecture
+- **API Layer**: Handles HTTP requests and routes them to appropriate services.
+- **Service Layer**: Contains business logic and interacts with the database and AI models.
+- **Database**: Stores structured data for the application.
+- **AI Model Integration**: Embeds AI models for inference tasks, such as image recognition and data analysis.
 
-## Install dependencies
-  LLaMA client library
-  
-  FastAPI (optional but helpful)
-  
-  Pillow or similar for image handling
+### Key Features
+- **Frameworks**: Built using FastAPI for lightweight and efficient API handling.
+- **Database**: Utilizes PostgreSQL for relational data storage.
+- **AI Models**: Integrated using pre-trained models for specific tasks.
+- **Environment Configuration**: Managed through `.env` files for secure and flexible deployment.
 
-## Confirm you can:
-  Load a local image
-  
-  Print image metadata
-  
-  Make a simple API call
+---
 
-  <!-- The connection between the "upload" button on the frontend's "home" page and the POST syntax in the backend's main.py file is established as follows:
+## Frontend Overview
+### Key Features
+- **Responsive Design**: Ensures compatibility across devices of various screen sizes.
+- **React with Vite**: Provides a fast development environment and optimized builds.
 
-    Frontend (index.html, Lines 56-57):
-    The <input> element with id="photo-upload" allows users to select an image file.
-    The <button> element with id="upload-button" triggers the upload process.
+---
 
-    Backend (main.py, Lines 134 onward):
-    The POST endpoint /api/images in main.py handles the uploaded image file and processes it. 
-  -->
+## EXIF Metadata Extraction
+### Why EXIF?
+- **Widespread Support**: Embedded in most modern image formats (e.g., JPEG, TIFF).
+- **Rich Metadata**: Includes date-time, camera settings, GPS coordinates, and more.
+- **Ease of Use**: Libraries like Pillow make it straightforward to extract EXIF data.
 
-## DEPENDENCIES - What each dependency is doing (and why it belongs)
-fastapi
-  Why:
-    Defines a simple backend API
-    Cleanly structures endpoints
-    Lightweight and modern
-  Reviewer signal: You know how to scaffold backend logic without overengineering.
+### Limitations
+- **Read-Only**: EXIF metadata is primarily read-only.
+- **Not Universal**: Some images (e.g., screenshots) may lack EXIF metadata.
 
-uvicorn
-  Why:
-    Runs FastAPI locally
-    Zero configuration
-    Industry standard ASGI server
-  Reviewer signal: You understand how backends actually run.
+---
 
-python-multipart
-  Why:
-    Required for handling image uploads in FastAPI
-    Even if you simulate uploads from local files, FastAPI expects this
-  Reviewer signal: You didn’t “hack around” file handling.
+## Prompt options - Identifying Wetland Organisms
+### Prompt Versions
+1. **Multiple Choice**: Provides 1-3 possible identifications with a fact about the organism.
+2. **Most Likely Identification**: Suggests the most likely organism visible in the image.
+3. **Hidden Inhabitant**: Suggests an organism likely present but not visible based on habitat and metadata.
 
-pillow
-  Why:
-    Opens and validates image files
-    Converts formats if needed
-    Reads basic metadata
-  Reviewer signal: You treat images as data, not blobs.
+---
 
-requests
-  Why:
-    Sends HTTP requests to the LLaMA Vision API
-    Simple and widely trusted
-  Reviewer signal: Clear, minimal API integration.
+## Lookup Tables vs ENUM
+### Why Lookup Tables?
+- **Scalability**: Add new categories without schema changes.
+- **Flexibility**: Supports regional variations and external GIS integration.
+- **Analytics**: Easier to analyze evolving categories.
 
-python-dotenv
-  Why:
-    Loads API keys from .env
-    Keeps secrets out of code and GitHub
-  Reviewer signal: You understand security basics
+---
 
-EXIF 
-  Why: Extracts EXIF metadata from an uploaded file and inserts into pic_metadata_exif table in DB - **Files** 
-    db_utils.py:27-77: Manages database operations, specifically with function to insert EXIF metadata (e.g., datetime_original, altitude) into pic_metadata_exif table.
-    routes.py:59-75: Handles EXIF extraction from uploaded files, validates the data, and calls db_utils.py to save it.
-    TABLE_CREATE.sql:47-65: Defines pic_metadata_exif table schema, then the database table will be used to store EXIF metadata.
-  Reviewer signal: Show that I use existing data so less asked of users (high data value WITH low user time and effort)
+## React Frontend Setup
+### Recommendations
+- Start with JavaScript and React Compiler for simplicity and modern tooling.
+- Transition to TypeScript in later phases if needed.
 
-## Instructions to Deploy Locally
+---
 
-### Prerequisites
-- Python 3.8 or higher
-- Node.js and npm
-- PostgreSQL database
-
-### Backend Setup
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd Wetlands-prototype-MVP/backend
-   ```
-2. Create a virtual environment and activate it:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate # On Windows: venv\Scripts\activate
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Set up the database:
-   - Create a PostgreSQL database.
-   - Update `database_url.env` with your database credentials.
-   - Run the SQL script to create tables:
-     ```bash
-     psql -U <username> -d <database_name> -f TABLE_CREATE.sql
-     ```
-5. Start the backend server:
-   ```bash
-   python main.py
-   ```
-
-### Frontend Setup
-1. Navigate to the frontend directory:
-   ```bash
-   cd ../frontend
-   ```
-2. Install dependencies:
+## How to Start the Frontend
+1. **Install Dependencies**:
    ```bash
    npm install
    ```
-3. Start the development server:
+2. **Start the Development Server**:
    ```bash
-   npm run dev
+   npm start
    ```
+3. **Open in Browser**:
+   Navigate to the URL displayed in the terminal (e.g., `http://localhost:3000`).
 
-### Access the Application
-- Open your browser and navigate to `http://localhost:3000` to access the frontend.
-- The backend API will be running at `http://localhost:5000`.
+---
+
+## Recommended Photo Sites
+- **Wolf River Greenway**: [Explore the Greenway](https://www.wolfriver.org/explore/greenway)
+- **Wolf River Interactive Map**: [View Map](https://www.wolfriver.org/map)
+- Bridges over culverts
+
+---
+
+## Diagnosing Performance Issues
+### Common Issues
+- High response times during large image uploads.
+- Increased failure rates on metadata extraction endpoints.
+- Fluctuating request rates causing slowdowns.
+
+### Steps to Resolve
+1. **Identify Log Patterns**:
+   - Use Azure Monitor and Application Insights to analyze logs.
+   - Example KQL Query:
+     ```kql
+     requests
+     | where timestamp > ago(1h)
+     | summarize count() by resultCode, bin(timestamp, 5m)
+     ```
+2. **Set Alerts**:
+   - Define alert rules for high CPU usage, response times, and failure rates.
+3. **Propose Corrective Actions**:
+   - Short-term: Scale out resources.
+   - Long-term: Optimize database queries and improve AI model efficiency.

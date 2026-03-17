@@ -1,0 +1,89 @@
+# README Compilation
+
+## Index
+1. [Wetlands-prototype-MVP](#wetlands-prototype-mvp)
+2. [Repository Documentation Outline](#repository-documentation-outline)
+3. [PLAN: Diagnosing and Resolving Intermittent Performance Issues Using Azure Tools](#plan-diagnosing-and-resolving-intermittent-performance-issues-using-azure-tools)
+4. [Recommended Photo Sites Before GIS](#recommended-photo-sites-before-gis)
+5. [How to See Your Frontend](#how-to-see-your-frontend)
+6. [React Frontend Setup with Vite](#react-frontend-setup-with-vite)
+7. [Getting Started with Create React App](#getting-started-with-create-react-app)
+8. [Mn3Prompts.py - Prompt for Identifying Organisms in Wetland Images](#mn3prompts-py---prompt-for-identifying-organisms-in-wetland-images)
+9. [Lookup Tables Instead of ENUM from Phase 2](#lookup-tables-instead-of-enum-from-phase-2)
+10. [Summary of PY Files: db_utils, models, and routes](#summary-of-py-files-db_utils-models-and-routes)
+11. [EXIF for Metadata Extraction](#exif-for-metadata-extraction)
+12. [M4U4W2D1 - Project Documentation - Outline](#m4u4w2d1---project-documentation---outline)
+
+---
+
+### Wetlands-prototype-MVP
+
+Clone the repository. Do not fork.
+
+... [Content from README.md]
+
+---
+
+### Repository Documentation Outline
+
+... [Content from Documentation_MAIN_Update.md]
+
+---
+
+### PLAN: Diagnosing and Resolving Intermittent Performance Issues Using Azure Tools
+
+... [Content from PLAN_Monitor_Maint.md]
+
+---
+
+### Recommended Photo Sites Before GIS
+
+... [Content from Sites_recomm_preGIS.md]
+
+---
+
+### How to See Your Frontend
+
+... [Content from README_Server.md]
+
+---
+
+### React Frontend Setup with Vite
+
+... [Content from README_React.md]
+
+---
+
+### Getting Started with Create React App
+
+... [Content from frontend/README.md]
+
+---
+
+### Mn3Prompts.py - Prompt for Identifying Organisms in Wetland Images
+
+... [Content from README_back_Mn3PromptsPY.md]
+
+---
+
+### Lookup Tables Instead of ENUM from Phase 2
+
+... [Content from README_back_DB_Loc_Lookup.md]
+
+---
+
+### Summary of PY Files: db_utils, models, and routes
+
+... [Content from README_RtDbModel.md]
+
+---
+
+### EXIF for Metadata Extraction
+
+... [Content from README_EXIF_metadata.md]
+
+---
+
+### M4U4W2D1 - Project Documentation - Outline
+
+... [Content from M4U4W2D1 - Project Documentation - Outline.txt]
