@@ -1,12 +1,9 @@
-# This file defines API endpoints for the backend service.
-# upload → save → validate → extract metadata → analyze image → store → respond
+# routes.py
 
 from fastapi import HTTPException, APIRouter
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from services.exif_metadata import extract_exif_metadata
-from db_utils import insert_exif_metadata
 from ollama_vision import analyze_wetland_image
 
 import uuid
@@ -23,53 +20,37 @@ UPLOAD_DIR = "uploads"
 os.makedirs(TMP_DIR, exist_ok=True)
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-# Define maximum file size (5 MB)
 MAX_FILE_SIZE = 5 * 1024 * 1024
 
 
-# Request model (matches frontend payload)
 class ImageUploadRequest(BaseModel):
     filename: str
-    image: str   # base64 string
+    image: str  # base64 string
 
 
 @router.post("/upload-image")
 async def upload_image(payload: ImageUploadRequest):
-    """
-    Endpoint for image uploads sent as Base64 JSON.
-    Extracts EXIF metadata, runs AI analysis, and returns results.
-    """
 
     media_id = str(uuid.uuid4())
     temp_filename = f"{media_id}_{payload.filename}"
     file_location = os.path.join(TMP_DIR, temp_filename)
 
     try:
-        # Decode base64 image
+        # Decode base64
         image_bytes = base64.b64decode(payload.image)
 
         if len(image_bytes) > MAX_FILE_SIZE:
-            raise HTTPException(status_code=413, detail="File size exceeds the 5 MB limit.")
+            raise HTTPException(status_code=413, detail="File too large")
 
-        # Save temporary file
+        # Save temp file
         with open(file_location, "wb") as buffer:
             buffer.write(image_bytes)
 
     except Exception as decode_error:
-        raise HTTPException(status_code=400, detail=f"Invalid Base64 image data: {decode_error}")
+        raise HTTPException(status_code=400, detail=f"Invalid Base64 data: {decode_error}")
 
     try:
-        # Extract EXIF metadata
-        metadata = extract_exif_metadata(file_location)
-
-        if metadata:
-            insert_exif_metadata(media_id, metadata)
-
-    except Exception as exif_error:
-        raise HTTPException(status_code=500, detail=f"EXIF extraction error: {exif_error}")
-
-    try:
-        # Run AI image analysis
+        # AI analysis (uses file path now)
         ai_response = analyze_wetland_image(file_location)
 
     except Exception as ai_error:
@@ -81,13 +62,12 @@ async def upload_image(payload: ImageUploadRequest):
         shutil.move(file_location, permanent_storage_path)
 
     except Exception as move_error:
-        raise HTTPException(status_code=500, detail=f"Error moving the file to permanent storage: {move_error}")
+        raise HTTPException(status_code=500, detail=f"File save error: {move_error}")
 
     return JSONResponse(
         content={
             "message": "AI analysis completed successfully",
             "media_id": media_id,
-            "metadata": metadata,
             "ai_response": ai_response
         }
     )
