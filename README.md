@@ -86,7 +86,7 @@ This repository contains the Wetlands Prototype MVP, a project designed to analy
    npm start
    ```
 3. **Open in Browser**:
-   Navigate to the URL displayed in the terminal (e.g., `http://localhost:3000`).
+   Navigate to the URL displayed in the terminal (e.g., `http://localhost:3000`). #Options through development: 
 
 ---
 
