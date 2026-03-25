@@ -19,6 +19,7 @@ import routes
 from PIL import Image
 from PIL.ExifTags import TAGS
 from services.exif_metadata import extract_exif_metadata  # Importing the EXIF metadata extraction function from the services module
+from backend import routes
 
 # ---------------------------------------------------------
 # FastAPI app initialization
