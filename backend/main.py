@@ -10,16 +10,20 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from collections import defaultdict  # Simplifies user usage tracking
 import ollama
 import uvicorn
+import sys
 import os
 from dotenv import load_dotenv
 from pathlib import Path  # Modern file handling
 import uuid
 import json
-import routes 
+import routes  # Absolute import
 from PIL import Image
 from PIL.ExifTags import TAGS
 from services.exif_metadata import extract_exif_metadata  # Importing the EXIF metadata extraction function from the services module
-from backend import routes
+import routes
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 
 # ---------------------------------------------------------
 # FastAPI app initialization
